@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Welcome/welcome_screen.dart';
 import 'package:project_manager/constants.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(MyApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: kLightYellow, // navigation bar color
+    statusBarColor: Color(0xffffb969), // status bar color
+  ));
+
+  return runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
