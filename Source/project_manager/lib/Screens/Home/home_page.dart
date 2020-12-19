@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:project_manager/Screens/Home/calendar_page.dart';
+import 'package:project_manager/constants.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:project_manager/components/task_column.dart';
 import 'package:project_manager/components/active_project_card.dart';
 import 'package:project_manager/components/top_container.dart';
-import 'package:project_manager/constants.dart';
 
 class HomePage extends StatelessWidget {
   Text subheading(String title) {

@@ -6,6 +6,7 @@ import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/components/rounded_input_field.dart';
 import 'package:project_manager/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:project_manager/Screens/Home/home_page.dart';
 
 class Body extends StatelessWidget {
   const Body({
