@@ -18,20 +18,23 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "SIGNUP",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "assets/icons/signup.svg",
-              height: size.height * 0.35,
+            RoundedInputField(
+              hintText: "Name",
+              icon: Icons.person,
+              onChanged: (value) {},
             ),
             RoundedInputField(
-              hintText: "Your Email",
+              hintText: "Username",
+              icon: Icons.account_circle,
               onChanged: (value) {},
             ),
             RoundedPasswordField(
+              onChanged: (value) {},
+            ),
+            RoundedInputField(
+              hintText: "Email",
+              icon: Icons.mail,
               onChanged: (value) {},
             ),
             RoundedButton(
@@ -52,24 +55,6 @@ class Body extends StatelessWidget {
                 );
               },
             ),
-            OrDivider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SocalIcon(
-                  iconSrc: "assets/icons/facebook.svg",
-                  press: () {},
-                ),
-                SocalIcon(
-                  iconSrc: "assets/icons/twitter.svg",
-                  press: () {},
-                ),
-                SocalIcon(
-                  iconSrc: "assets/icons/google-plus.svg",
-                  press: () {},
-                ),
-              ],
-            )
           ],
         ),
       ),

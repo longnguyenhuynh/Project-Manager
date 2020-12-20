@@ -4,8 +4,7 @@ import 'package:project_manager/constants.dart';
 
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
-
-  RoundedPasswordField({
+  const RoundedPasswordField({
     Key key,
     this.onChanged,
   }) : super(key: key);
