@@ -6,7 +6,6 @@ import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/components/rounded_input_field.dart';
 import 'package:project_manager/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:project_manager/Screens/Home/home_page.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -21,13 +20,9 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "LOGIN",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
-              "assets/icons/login.svg",
+              "assets/icons/owl.svg",
               height: size.height * 0.35,
             ),
             SizedBox(height: size.height * 0.03),
@@ -40,16 +35,7 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return HomePage();
-                    },
-                  ),
-                );
-              },
+              press: () {},
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
