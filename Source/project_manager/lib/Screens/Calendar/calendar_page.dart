@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_manager/dates_list.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/calendar_dates.dart';
 import 'package:project_manager/components/task_container.dart';
