@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_manager/Screens/Home/HomePage.dart';
+import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Login/components/background.dart';
 import 'package:project_manager/Screens/Signup/signup_screen.dart';
 import 'package:project_manager/components/already_have_an_account_acheck.dart';
