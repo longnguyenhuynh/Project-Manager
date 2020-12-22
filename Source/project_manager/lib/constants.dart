@@ -13,3 +13,23 @@ const Color kBlue = Color(0xFF6488E4);
 const Color kLightGreen = Color(0xFFD9E6DC);
 const Color kGreen = Color(0xFF309397);
 const Color kDarkBlue = Color(0xFF0D253F);
+
+List<int> time = [
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23
+];
