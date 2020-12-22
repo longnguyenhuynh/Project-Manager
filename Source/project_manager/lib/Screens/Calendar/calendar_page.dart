@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:project_manager/dates_list.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/calendar_dates.dart';
-import 'package:project_manager/components/task_container.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:project_manager/components/back_button.dart';
-import 'package:calendar_time/calendar_time.dart';
+import 'package:project_manager/components/task_container.dart';
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
+  @override
+  _CalendarPageState createState() => _CalendarPageState();
+}
+
+class _CalendarPageState extends State<CalendarPage> {
+  CalendarController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = CalendarController();
+  }
+
   Widget _dashedText() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
@@ -22,7 +33,6 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kLightYellow,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(
@@ -32,31 +42,44 @@ class CalendarPage extends StatelessWidget {
             0,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               MyBackButton(),
-              SizedBox(height: 30.0),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  CalendarTime(DateTime.now()).format("MMMM, dd"),
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
+              TableCalendar(
+                initialCalendarFormat: CalendarFormat.week,
+                headerStyle: HeaderStyle(
+                  centerHeaderTitle: true,
+                  formatButtonDecoration: BoxDecoration(
+                    color: kGreen,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  formatButtonTextStyle: TextStyle(color: Colors.white),
+                  formatButtonShowsNext: false,
                 ),
-              ),
-              SizedBox(height: 20.0),
-              Container(
-                height: 58.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: days.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CalendarDates(
-                      day: days[index],
-                      date: dates[index],
-                      dayColor: index == 0 ? kRed : Colors.black54,
-                      dateColor: index == 0 ? kRed : kDarkBlue,
-                    );
-                  },
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                builders: CalendarBuilders(
+                  selectedDayBuilder: (context, date, events) => Container(
+                      margin: const EdgeInsets.all(4.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: kGreen,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Text(
+                        date.day.toString(),
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  todayDayBuilder: (context, date, events) => Container(
+                      margin: const EdgeInsets.all(4.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Text(
+                        date.day.toString(),
+                        style: TextStyle(color: Colors.white),
+                      )),
                 ),
+                calendarController: _controller,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -79,7 +102,7 @@ class CalendarPage extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '${time[index]} ${time[index] > 8 ? 'PM' : 'AM'}',
+                                  '${time[index] > 12 ? time[index] - 12 : time[index]} ${time[index] > 12 ? 'PM' : 'AM'}',
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.black54,
@@ -98,6 +121,7 @@ class CalendarPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             children: <Widget>[
+                              // Change base on date
                               _dashedText(),
                               TaskContainer(
                                 title: 'Project Research',
