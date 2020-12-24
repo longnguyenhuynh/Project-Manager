@@ -7,6 +7,8 @@ import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/components/rounded_input_field.dart';
 import 'package:project_manager/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Body extends StatelessWidget {
   const Body({
@@ -15,6 +17,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String userName;
+    String passWord;
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -30,10 +34,16 @@ class Body extends StatelessWidget {
             RoundedInputField(
               hintText: "Username",
               icon: Icons.account_circle,
-              onChanged: (value) {},
+              onChanged: (value) {
+                userName = value;
+                print(userName);
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                passWord = value;
+                print(passWord);
+              },
             ),
             RoundedButton(
               text: "LOGIN",
@@ -42,6 +52,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
+                      getConnect(userName, passWord);
                       return HomePage();
                     },
                   ),
@@ -65,5 +76,20 @@ class Body extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future getConnect(String userName, String passWord) async {
+    Map<String, String> loginInfo = {
+      'userName': userName,
+      'passWord': passWord,
+    };
+    print(loginInfo);
+    var url = 'https://phuidatabase.000webhostapp.com/getData.php';
+    String queryString = Uri(queryParameters: loginInfo).query;
+    var requestUrl = url + '?' + queryString;
+    print(requestUrl);
+    http.Response response = await http.get(requestUrl);
+    var data = jsonDecode(response.body);
+    print(data.toString());
   }
 }
