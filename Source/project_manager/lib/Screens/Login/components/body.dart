@@ -36,27 +36,17 @@ class Body extends StatelessWidget {
               icon: Icons.account_circle,
               onChanged: (value) {
                 userName = value;
-                print(userName);
               },
             ),
             RoundedPasswordField(
               onChanged: (value) {
                 passWord = value;
-                print(passWord);
               },
             ),
             RoundedButton(
               text: "LOGIN",
               press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      getConnect(userName, passWord);
-                      return HomePage();
-                    },
-                  ),
-                );
+                checkLoginAsync(userName, passWord, context);
               },
             ),
             SizedBox(height: size.height * 0.03),
@@ -78,18 +68,31 @@ class Body extends StatelessWidget {
     );
   }
 
-  Future getConnect(String userName, String passWord) async {
+  void checkLoginAsync(
+      String userName, String passWord, BuildContext context) async {
+    int value = await getConnect(userName, passWord);
+    if (value != 0)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return HomePage();
+          },
+        ),
+      );
+  }
+
+  Future<int> getConnect(String userName, String passWord) async {
     Map<String, String> loginInfo = {
       'userName': userName,
       'passWord': passWord,
     };
-    print(loginInfo);
     var url = 'https://phuidatabase.000webhostapp.com/getData.php';
     String queryString = Uri(queryParameters: loginInfo).query;
     var requestUrl = url + '?' + queryString;
-    print(requestUrl);
     http.Response response = await http.get(requestUrl);
-    var data = jsonDecode(response.body);
-    print(data.toString());
+    var data = response.body;
+    int a = int.parse(data.toString());
+    return a;
   }
 }
