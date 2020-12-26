@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Login/components/background.dart';
@@ -8,7 +10,6 @@ import 'package:project_manager/components/rounded_input_field.dart';
 import 'package:project_manager/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class Body extends StatelessWidget {
   const Body({
@@ -19,6 +20,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     String userName;
     String passWord;
+    bool logErr = false; //set visible for error login text
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -46,8 +48,30 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () {
-                checkLoginAsync(userName, passWord, context);
+                // int value = await getConnect(userName, passWord);
+                // if (value != 0)
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) {
+                //         return HomePage();
+                //       },
+                //     ),
+                //   );
+                // else
+                logErr = !logErr;
+                print(logErr);
               },
+            ),
+            Visibility(
+              visible: logErr,
+              maintainState: true,
+              child: RichText(
+                text: TextSpan(
+                  text: 'Sai tên đăng nhập hoặc mật khẩu',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
@@ -66,20 +90,6 @@ class Body extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void checkLoginAsync(
-      String userName, String passWord, BuildContext context) async {
-    int value = await getConnect(userName, passWord);
-    if (value != 0)
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return HomePage();
-          },
-        ),
-      );
   }
 
   Future<int> getConnect(String userName, String passWord) async {
