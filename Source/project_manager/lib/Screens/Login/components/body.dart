@@ -47,20 +47,19 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {
-                // int value = await getConnect(userName, passWord);
-                // if (value != 0)
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) {
-                //         return HomePage();
-                //       },
-                //     ),
-                //   );
-                // else
-                logErr = !logErr;
-                print(logErr);
+              press: () async {
+                int value = await getConnect(userName, passWord);
+                if (value != 0)
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return HomePage();
+                      },
+                    ),
+                  );
+                else
+                  print('sai thông tin rồi thằng ngu');
               },
             ),
             Visibility(
@@ -97,6 +96,7 @@ class Body extends StatelessWidget {
       'userName': userName,
       'passWord': passWord,
     };
+    
     var url = 'https://phuidatabase.000webhostapp.com/getData.php';
     String queryString = Uri(queryParameters: loginInfo).query;
     var requestUrl = url + '?' + queryString;
