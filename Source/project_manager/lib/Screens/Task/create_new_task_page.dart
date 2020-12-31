@@ -17,9 +17,8 @@ class CreateNewTaskPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            TopContainer(
+            Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
-              width: width,
               child: Column(
                 children: <Widget>[
                   MyBackButton(),
@@ -30,7 +29,7 @@ class CreateNewTaskPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Create new task',
+                        'New task',
                         style: TextStyle(
                             fontSize: 30.0, fontWeight: FontWeight.w700),
                       ),
@@ -41,20 +40,7 @@ class CreateNewTaskPage extends StatelessWidget {
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      MyTextField(label: 'Title'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Expanded(
-                            child: MyTextField(
-                              label: 'Date',
-                              icon: downwardIcon,
-                            ),
-                          ),
-                          HomePage.calendarIcon(),
-                        ],
-                      )
+                      MyTextField(label: 'Name'),
                     ],
                   ))
                 ],
@@ -89,49 +75,6 @@ class CreateNewTaskPage extends StatelessWidget {
                     maxLines: 3,
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Category',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          //direction: Axis.vertical,
-                          alignment: WrapAlignment.start,
-                          verticalDirection: VerticalDirection.down,
-                          runSpacing: 0,
-                          //textDirection: TextDirection.rtl,
-                          spacing: 10.0,
-                          children: <Widget>[
-                            Chip(
-                              label: Text("SPORT APP"),
-                              backgroundColor: kRed,
-                              labelStyle: TextStyle(color: Colors.white),
-                            ),
-                            Chip(
-                              label: Text("MEDICAL APP"),
-                            ),
-                            Chip(
-                              label: Text("RENT APP"),
-                            ),
-                            Chip(
-                              label: Text("NOTES"),
-                            ),
-                            Chip(
-                              label: Text("GAMING PLATFORM APP"),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
             )),

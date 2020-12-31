@@ -21,11 +21,11 @@ class HomePage extends StatelessWidget {
   static CircleAvatar calendarIcon() {
     return CircleAvatar(
       radius: 25.0,
-      backgroundColor: kGreen,
+      backgroundColor: kPrimaryColor,
       child: Icon(
         Icons.calendar_today,
         size: 20.0,
-        color: kLightYellow,
+        color: kPrimaryLightColor,
       ),
     );
   }
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: kLightYellow,
+      backgroundColor: kPrimaryLightColor,
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -115,12 +115,11 @@ class HomePage extends StatelessWidget {
                               subheading('Tasks'),
                               Row(children: <Widget>[
                                 Container(
-                                  // Check role
                                   height: 40.0,
                                   width: 120,
                                   margin: EdgeInsets.only(right: 20.0),
                                   decoration: BoxDecoration(
-                                    color: kGreen,
+                                    color: kPrimaryColor,
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: FlatButton(
@@ -137,7 +136,7 @@ class HomePage extends StatelessWidget {
                                       child: Text(
                                         'Add task',
                                         style: TextStyle(
-                                            color: kLightYellow,
+                                            color: kPrimaryLightColor,
                                             fontWeight: FontWeight.w700,
                                             fontSize: 16),
                                       ),
@@ -196,34 +195,26 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               ActiveProjectsCard(
-                                cardColor: kGreen,
-                                loadingPercent: 0.25,
                                 title: 'Medical App',
-                                subtitle: '9 hours progress',
+                                subtitle: '9 hours left',
                               ),
                               SizedBox(width: 20.0),
                               ActiveProjectsCard(
-                                cardColor: kRed,
-                                loadingPercent: 0.6,
                                 title: 'Making History Notes',
-                                subtitle: '20 hours progress',
+                                subtitle: '20 hours left',
                               ),
                             ],
                           ),
                           Row(
                             children: <Widget>[
                               ActiveProjectsCard(
-                                cardColor: kDarkYellow,
-                                loadingPercent: 0.45,
                                 title: 'Sports App',
-                                subtitle: '5 hours progress',
+                                subtitle: '5 hours left',
                               ),
                               SizedBox(width: 20.0),
                               ActiveProjectsCard(
-                                cardColor: kBlue,
-                                loadingPercent: 0.9,
                                 title: 'Online Flutter Course',
-                                subtitle: '23 hours progress',
+                                subtitle: '23 hours left',
                               ),
                             ],
                           ),
