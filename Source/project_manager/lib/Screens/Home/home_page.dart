@@ -47,9 +47,10 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Icon(Icons.menu, color: kPrimaryLightColor, size: 30.0),
+                        Icon(Icons.menu,
+                            color: kPrimaryLightColor, size: 30.0), // Drawer
                         Icon(Icons.search,
-                            color: kPrimaryLightColor, size: 30.0),
+                            color: kPrimaryLightColor, size: 30.0), // DB
                       ],
                     ),
                     Padding(
