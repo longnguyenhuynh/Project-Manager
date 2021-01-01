@@ -95,11 +95,11 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                   SizedBox(height: 20),
                   MultiSelectFormField(
                     autovalidate: false,
-                    chipBackGroundColor: Colors.red,
+                    chipBackGroundColor: kPrimaryColor,
                     chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                     dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                    checkBoxActiveColor: Colors.red,
-                    checkBoxCheckColor: Colors.green,
+                    checkBoxActiveColor: kPrimaryColor,
+                    checkBoxCheckColor: kGreen,
                     dialogShapeBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12.0))),
                     title: Text(
