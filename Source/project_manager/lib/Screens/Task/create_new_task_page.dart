@@ -3,32 +3,27 @@ import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/my_text_field.dart';
 
+class Priority {
+  const Priority(this.name, this.color);
+  final String name;
+  final Color color;
+}
+
+int _value = 1;
+
+List<Priority> _priority = <Priority>[
+  const Priority('Low', kGreen),
+  const Priority('Med', kBlue),
+  const Priority('High', kDarkYellow),
+  const Priority('Critical', kRed),
+];
+
 class CreateNewTaskPage extends StatefulWidget {
   @override
   _CreateNewTaskPageState createState() => _CreateNewTaskPageState();
 }
 
 class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
-  Widget chip(String label, Color color) {
-    return Chip(
-      labelPadding: EdgeInsets.all(5.0),
-      avatar: CircleAvatar(
-        backgroundColor: Colors.grey.shade600,
-        child: Text(label[0].toUpperCase()),
-      ),
-      label: Text(
-        label,
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: color,
-      elevation: 6.0,
-      shadowColor: Colors.grey[60],
-      padding: EdgeInsets.all(6.0),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -99,18 +94,40 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                     'Priority',
                     style: TextStyle(fontSize: 18),
                   ),
+                  SizedBox(height: 10),
                   Wrap(
                     spacing: 6.0,
                     runSpacing: 6.0,
-                    children: <Widget>[
-                      chip('Health', Color(0xFFff8a65)),
-                      chip('Food', Color(0xFF4fc3f7)),
-                      chip('Lifestyle', Color(0xFF9575cd)),
-                      chip('Sports', Color(0xFF4db6ac)),
-                      chip('Nature', Color(0xFF5cda65)),
-                      chip('Learn', Color(0xFFacbb65)),
-                    ],
-                  ),
+                    children: List<Widget>.generate(
+                      4,
+                      (int index) {
+                        return ChoiceChip(
+                          labelPadding: EdgeInsets.all(5.0),
+                          avatar: CircleAvatar(
+                            backgroundColor: Colors.grey.shade700,
+                            child: Text(_priority[index].name[0].toUpperCase()),
+                          ),
+                          label: Text(
+                            _priority[index].name,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          elevation: 6.0,
+                          backgroundColor: Colors.black38,
+                          shadowColor: Colors.grey[60],
+                          padding: EdgeInsets.all(6.0),
+                          selected: _value == index,
+                          selectedColor: _priority[index].color,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _value = selected ? index : 0;
+                            });
+                          },
+                        );
+                      },
+                    ).toList(),
+                  )
                 ],
               ),
             )),
