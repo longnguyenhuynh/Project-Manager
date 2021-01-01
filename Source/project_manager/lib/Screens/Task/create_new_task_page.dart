@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/top_container.dart';
 import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/my_text_field.dart';
-import 'package:project_manager/Screens/Home/home_page.dart';
+import 'package:multiselect_formfield/multiselect_formfield.dart';
 
-class CreateNewTaskPage extends StatelessWidget {
+class Priority {
+  const Priority(this.name, this.color);
+  final String name;
+  final Color color;
+}
+
+int _value = 1;
+
+List<Priority> _priority = <Priority>[
+  const Priority('Low', kGreen),
+  const Priority('Med', kBlue),
+  const Priority('High', kDarkYellow),
+  const Priority('Critical', kRed),
+];
+
+class CreateNewTaskPage extends StatefulWidget {
+  @override
+  _CreateNewTaskPageState createState() => _CreateNewTaskPageState();
+}
+
+class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
   @override
   Widget build(BuildContext context) {
+    List _assignTo = [];
+
     double width = MediaQuery.of(context).size.width;
     var downwardIcon = Icon(
       Icons.keyboard_arrow_down,
@@ -17,44 +38,29 @@ class CreateNewTaskPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            TopContainer(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
-              width: width,
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Column(
                 children: <Widget>[
                   MyBackButton(),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Create new task',
+                        'New task',
                         style: TextStyle(
                             fontSize: 30.0, fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
                   Container(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      MyTextField(label: 'Title'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Expanded(
-                            child: MyTextField(
-                              label: 'Date',
-                              icon: downwardIcon,
-                            ),
-                          ),
-                          HomePage.calendarIcon(),
-                        ],
-                      )
+                      MyTextField(label: 'Name'),
                     ],
                   ))
                 ],
@@ -73,7 +79,7 @@ class CreateNewTaskPage extends StatelessWidget {
                         label: 'Start Time',
                         icon: downwardIcon,
                       )),
-                      SizedBox(width: 40),
+                      SizedBox(width: 20),
                       Expanded(
                         child: MyTextField(
                           label: 'End Time',
@@ -85,52 +91,87 @@ class CreateNewTaskPage extends StatelessWidget {
                   SizedBox(height: 20),
                   MyTextField(
                     label: 'Description',
-                    minLines: 3,
-                    maxLines: 3,
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Category',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          //direction: Axis.vertical,
-                          alignment: WrapAlignment.start,
-                          verticalDirection: VerticalDirection.down,
-                          runSpacing: 0,
-                          //textDirection: TextDirection.rtl,
-                          spacing: 10.0,
-                          children: <Widget>[
-                            Chip(
-                              label: Text("SPORT APP"),
-                              backgroundColor: kRed,
-                              labelStyle: TextStyle(color: Colors.white),
-                            ),
-                            Chip(
-                              label: Text("MEDICAL APP"),
-                            ),
-                            Chip(
-                              label: Text("RENT APP"),
-                            ),
-                            Chip(
-                              label: Text("NOTES"),
-                            ),
-                            Chip(
-                              label: Text("GAMING PLATFORM APP"),
-                            ),
-                          ],
-                        ),
-                      ],
+                  MultiSelectFormField(
+                    autovalidate: false,
+                    chipBackGroundColor: Colors.red,
+                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                    dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                    checkBoxActiveColor: Colors.red,
+                    checkBoxCheckColor: Colors.green,
+                    dialogShapeBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    title: Text(
+                      "Assign to",
+                      style: TextStyle(fontSize: 18),
                     ),
+                    //  Database
+                    dataSource: [
+                      {
+                        "display": "Long",
+                        "value": "Long",
+                      },
+                      {
+                        "display": "Long Huynh",
+                        "value": "Long Huynh",
+                      },
+                      {
+                        "display": "Huynh Long",
+                        "value": "Huynh Long",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                    okButtonLabel: 'Confirm',
+                    cancelButtonLabel: 'Cancel',
+                    hintWidget: Text('Please choose one or more'),
+                    initialValue: _assignTo,
+                    onSaved: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        _assignTo = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Priority',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: 10),
+                  Wrap(
+                    spacing: 6.0,
+                    runSpacing: 6.0,
+                    children: List<Widget>.generate(
+                      4,
+                      (int index) {
+                        return ChoiceChip(
+                          labelPadding: EdgeInsets.all(5.0),
+                          avatar: CircleAvatar(
+                            backgroundColor: Colors.grey.shade700,
+                            child: Text(_priority[index].name[0].toUpperCase()),
+                          ),
+                          label: Text(
+                            _priority[index].name,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          elevation: 6.0,
+                          backgroundColor: Colors.black38,
+                          shadowColor: Colors.grey[60],
+                          padding: EdgeInsets.all(6.0),
+                          selected: _value == index,
+                          selectedColor: _priority[index].color,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _value = selected ? index : 0;
+                            });
+                          },
+                        );
+                      },
+                    ).toList(),
                   )
                 ],
               ),

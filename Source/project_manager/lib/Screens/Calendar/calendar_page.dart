@@ -18,18 +18,6 @@ class _CalendarPageState extends State<CalendarPage> {
     _controller = CalendarController();
   }
 
-  Widget _dashedText() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      child: Text(
-        '------------------------------------------',
-        maxLines: 1,
-        style:
-            TextStyle(fontSize: 20.0, color: Colors.black12, letterSpacing: 5),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +60,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       margin: const EdgeInsets.all(4.0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: Colors.orange,
+                          color: kPrimaryColor,
                           borderRadius: BorderRadius.circular(10.0)),
                       child: Text(
                         date.day.toString(),
@@ -89,29 +77,6 @@ class _CalendarPageState extends State<CalendarPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: ListView.builder(
-                            itemCount: time.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '${time[index] > 12 ? time[index] - 12 : time[index]} ${time[index] > 12 ? 'PM' : 'AM'}',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         SizedBox(
                           width: 20,
                         ),
@@ -121,30 +86,18 @@ class _CalendarPageState extends State<CalendarPage> {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             children: <Widget>[
-                              // Change base on date
-                              _dashedText(),
+                              // Database
                               TaskContainer(
                                 title: 'Project Research',
                                 subtitle:
                                     'Discuss with the colleagues about the future plan',
                                 boxColor: kLightYellow2,
                               ),
-                              _dashedText(),
+
                               TaskContainer(
                                 title: 'Work on Medical App',
                                 subtitle: 'Add medicine tab',
                                 boxColor: kLavender,
-                              ),
-                              TaskContainer(
-                                title: 'Call',
-                                subtitle: 'Call to david',
-                                boxColor: kPalePink,
-                              ),
-                              TaskContainer(
-                                title: 'Design Meeting',
-                                subtitle:
-                                    'Discuss with designers for new task for the medical app',
-                                boxColor: kLightGreen,
                               ),
                             ],
                           ),
