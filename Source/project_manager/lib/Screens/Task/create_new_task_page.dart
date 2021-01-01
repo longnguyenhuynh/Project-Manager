@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/my_text_field.dart';
+import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class Priority {
   const Priority(this.name, this.color);
@@ -26,6 +27,8 @@ class CreateNewTaskPage extends StatefulWidget {
 class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
   @override
   Widget build(BuildContext context) {
+    List _assignTo = [];
+
     double width = MediaQuery.of(context).size.width;
     var downwardIcon = Icon(
       Icons.keyboard_arrow_down,
@@ -88,6 +91,48 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                   SizedBox(height: 20),
                   MyTextField(
                     label: 'Description',
+                  ),
+                  SizedBox(height: 20),
+                  MultiSelectFormField(
+                    autovalidate: false,
+                    chipBackGroundColor: Colors.red,
+                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                    dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                    checkBoxActiveColor: Colors.red,
+                    checkBoxCheckColor: Colors.green,
+                    dialogShapeBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    title: Text(
+                      "Assign to",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    //  Database
+                    dataSource: [
+                      {
+                        "display": "Long",
+                        "value": "Long",
+                      },
+                      {
+                        "display": "Long Huynh",
+                        "value": "Long Huynh",
+                      },
+                      {
+                        "display": "Huynh Long",
+                        "value": "Huynh Long",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                    okButtonLabel: 'Confirm',
+                    cancelButtonLabel: 'Cancel',
+                    hintWidget: Text('Please choose one or more'),
+                    initialValue: _assignTo,
+                    onSaved: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        _assignTo = value;
+                      });
+                    },
                   ),
                   SizedBox(height: 20),
                   Text(
