@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Login/components/background.dart';
-import 'package:project_manager/Screens/Signup/signup_screen.dart';
-import 'package:project_manager/components/already_have_an_account_acheck.dart';
 import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/components/rounded_input_field.dart';
 import 'package:project_manager/components/rounded_password_field.dart';
@@ -60,29 +58,6 @@ class Body extends StatelessWidget {
                   );
                 else
                   print('sai thông tin rồi thằng ngu');
-              },
-            ),
-            Visibility(
-              visible: logErr,
-              maintainState: true,
-              child: RichText(
-                text: TextSpan(
-                  text: 'Sai tên đăng nhập hoặc mật khẩu',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            AlreadyHaveAnAccountCheck(
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SignUpScreen();
-                    },
-                  ),
-                );
               },
             ),
           ],
