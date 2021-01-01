@@ -195,11 +195,13 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               ActiveProjectsCard(
+                                cardColor: kDarkYellow,
                                 title: 'Medical App',
                                 subtitle: '9 hours left',
                               ),
                               SizedBox(width: 20.0),
                               ActiveProjectsCard(
+                                cardColor: kGreen,
                                 title: 'Making History Notes',
                                 subtitle: '20 hours left',
                               ),
@@ -208,11 +210,13 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               ActiveProjectsCard(
+                                cardColor: kRed,
                                 title: 'Sports App',
                                 subtitle: '5 hours left',
                               ),
                               SizedBox(width: 20.0),
                               ActiveProjectsCard(
+                                cardColor: kBlue,
                                 title: 'Online Flutter Course',
                                 subtitle: '23 hours left',
                               ),

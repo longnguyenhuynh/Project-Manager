@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:project_manager/constants.dart';
 
 class ActiveProjectsCard extends StatelessWidget {
+  final Color cardColor;
   final String title;
   final String subtitle;
 
   ActiveProjectsCard({
+    this.cardColor,
     this.title,
     this.subtitle,
   });
@@ -20,7 +20,7 @@ class ActiveProjectsCard extends StatelessWidget {
         padding: EdgeInsets.all(15.0),
         height: 130,
         decoration: BoxDecoration(
-          color: kGreen,
+          color: cardColor,
           borderRadius: BorderRadius.circular(40.0),
         ),
         child: Column(
