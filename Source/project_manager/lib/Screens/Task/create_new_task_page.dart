@@ -1,11 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/top_container.dart';
 import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/my_text_field.dart';
-import 'package:project_manager/Screens/Home/home_page.dart';
 
-class CreateNewTaskPage extends StatelessWidget {
+class CreateNewTaskPage extends StatefulWidget {
+  @override
+  _CreateNewTaskPageState createState() => _CreateNewTaskPageState();
+}
+
+class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
+  Widget chip(String label, Color color) {
+    return Chip(
+      labelPadding: EdgeInsets.all(5.0),
+      avatar: CircleAvatar(
+        backgroundColor: Colors.grey.shade600,
+        child: Text(label[0].toUpperCase()),
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: color,
+      elevation: 6.0,
+      shadowColor: Colors.grey[60],
+      padding: EdgeInsets.all(6.0),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -18,12 +41,12 @@ class CreateNewTaskPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Column(
                 children: <Widget>[
                   MyBackButton(),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +58,6 @@ class CreateNewTaskPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
                   Container(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +81,7 @@ class CreateNewTaskPage extends StatelessWidget {
                         label: 'Start Time',
                         icon: downwardIcon,
                       )),
-                      SizedBox(width: 40),
+                      SizedBox(width: 20),
                       Expanded(
                         child: MyTextField(
                           label: 'End Time',
@@ -71,10 +93,24 @@ class CreateNewTaskPage extends StatelessWidget {
                   SizedBox(height: 20),
                   MyTextField(
                     label: 'Description',
-                    minLines: 3,
-                    maxLines: 3,
                   ),
                   SizedBox(height: 20),
+                  Text(
+                    'Priority',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Wrap(
+                    spacing: 6.0,
+                    runSpacing: 6.0,
+                    children: <Widget>[
+                      chip('Health', Color(0xFFff8a65)),
+                      chip('Food', Color(0xFF4fc3f7)),
+                      chip('Lifestyle', Color(0xFF9575cd)),
+                      chip('Sports', Color(0xFF4db6ac)),
+                      chip('Nature', Color(0xFF5cda65)),
+                      chip('Learn', Color(0xFFacbb65)),
+                    ],
+                  ),
                 ],
               ),
             )),
