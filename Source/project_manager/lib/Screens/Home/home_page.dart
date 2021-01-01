@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
   static CircleAvatar calendarIcon() {
     return CircleAvatar(
       radius: 25.0,
-      backgroundColor: kPrimaryColor,
+      backgroundColor: kGreen,
       child: Icon(
         Icons.calendar_today,
         size: 20.0,
@@ -119,7 +119,7 @@ class HomePage extends StatelessWidget {
                                   width: 120,
                                   margin: EdgeInsets.only(right: 20.0),
                                   decoration: BoxDecoration(
-                                    color: kPrimaryColor,
+                                    color: kGreen,
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: FlatButton(
