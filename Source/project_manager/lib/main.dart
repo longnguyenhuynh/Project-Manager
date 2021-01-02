@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Login/login_screen.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/Screens/Profile/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ProfilePage(),
+      home: LoginScreen(),
     );
   }
 }
