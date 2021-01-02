@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/my_text_field.dart';
+import 'package:project_manager/Screens/Admin/admin.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -71,23 +71,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   activeColor: kPrimaryColor,
                   iconSize: 24,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  duration: Duration(milliseconds: 800),
                   tabs: [
                     GButton(
                       icon: Icons.home,
-                      text: 'Home',
                     ),
                     GButton(
                       icon: Icons.lightbulb,
-                      text: 'Project',
                     ),
                     GButton(
                       icon: Icons.calendar_today,
-                      text: 'Calendar',
                     ),
                     GButton(
                       icon: Icons.person,
-                      text: 'Profile',
+                    ),
+                    GButton(
+                      icon: Icons.star,
                     ),
                   ],
                   selectedIndex: selectedIndex,
@@ -109,6 +107,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => CalendarPage()),
+                      );
+                    } else if (index == 4) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AdminPage()),
                       );
                     }
                   }),

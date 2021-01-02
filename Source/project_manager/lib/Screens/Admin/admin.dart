@@ -4,16 +4,16 @@ import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
-import 'package:project_manager/Screens/Admin/admin.dart';
+import 'package:project_manager/Screens/Project/project_page.dart';
 
-class ProjectPage extends StatefulWidget {
+class AdminPage extends StatefulWidget {
   @override
-  ProjectPage({Key key}) : super(key: key);
-  _ProjectPageState createState() => _ProjectPageState();
+  AdminPage({Key key}) : super(key: key);
+  _AdminPageState createState() => _AdminPageState();
 }
 
-class _ProjectPageState extends State<ProjectPage> {
-  int selectedIndex = 1;
+class _AdminPageState extends State<AdminPage> {
+  int selectedIndex = 4;
   final TextStyle dropdownMenuItem =
       TextStyle(color: Colors.black, fontSize: 18);
 
@@ -110,7 +110,7 @@ class _ProjectPageState extends State<ProjectPage> {
                           cursorColor: Theme.of(context).primaryColor,
                           style: dropdownMenuItem,
                           decoration: InputDecoration(
-                              hintText: "Search Project",
+                              hintText: "Search Employee",
                               hintStyle: TextStyle(
                                   color: Colors.black38, fontSize: 16),
                               prefixIcon: Material(
@@ -183,6 +183,12 @@ class _ProjectPageState extends State<ProjectPage> {
                           context,
                           MaterialPageRoute(builder: (context) => HomePage()),
                         );
+                      } else if (index == 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectPage()),
+                        );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
@@ -194,11 +200,6 @@ class _ProjectPageState extends State<ProjectPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage()),
-                        );
-                      } else if (index == 4) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AdminPage()),
                         );
                       }
                     }),
