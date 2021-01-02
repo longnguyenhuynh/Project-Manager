@@ -5,6 +5,7 @@ import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/constants.dart';
+import 'package:project_manager/components/my_text_field.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -12,10 +13,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  TextStyle _style() {
-    return TextStyle(fontWeight: FontWeight.bold);
-  }
-
   int selectedIndex = 3;
 
   @override
@@ -23,109 +20,101 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text("Email"),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              "abc@123",
-              style: _style(),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text("Address"),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              "abc",
-              style: _style(),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text("Phone number"),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              "abc",
-              style: _style(),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(
-                    spreadRadius: -10,
-                    blurRadius: 60,
-                    color: Colors.black.withOpacity(.20),
-                    offset: Offset(0, 15))
-              ]),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                child: GNav(
-                    gap: 8,
-                    color: Colors.grey[800],
-                    activeColor: kPrimaryColor,
-                    iconSize: 24,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    duration: Duration(milliseconds: 800),
-                    tabs: [
-                      GButton(
-                        icon: Icons.home,
-                        text: 'Home',
-                      ),
-                      GButton(
-                        icon: Icons.lightbulb,
-                        text: 'Project',
-                      ),
-                      GButton(
-                        icon: Icons.calendar_today,
-                        text: 'Calendar',
-                      ),
-                      GButton(
-                        icon: Icons.person,
-                        text: 'Profile',
-                      ),
-                    ],
-                    selectedIndex: selectedIndex,
-                    onTabChange: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                      if (index == 1) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProjectPage()),
-                        );
-                      } else if (index == 2) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CalendarPage()),
-                        );
-                      }
-                      if (index == 3) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
-                        );
-                      }
-                    }),
+        child: Column(children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text("Email"),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  MyTextField(initValue: "ABC", label: 'Name'),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text("Address"),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  MyTextField(label: 'Name'),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text("Phone number"),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  MyTextField(label: 'Name'),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  spreadRadius: -10,
+                  blurRadius: 60,
+                  color: Colors.black.withOpacity(.20),
+                  offset: Offset(0, 15))
+            ]),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              child: GNav(
+                  gap: 8,
+                  color: Colors.grey[800],
+                  activeColor: kPrimaryColor,
+                  iconSize: 24,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  duration: Duration(milliseconds: 800),
+                  tabs: [
+                    GButton(
+                      icon: Icons.home,
+                      text: 'Home',
+                    ),
+                    GButton(
+                      icon: Icons.lightbulb,
+                      text: 'Project',
+                    ),
+                    GButton(
+                      icon: Icons.calendar_today,
+                      text: 'Calendar',
+                    ),
+                    GButton(
+                      icon: Icons.person,
+                      text: 'Profile',
+                    ),
+                  ],
+                  selectedIndex: selectedIndex,
+                  onTabChange: (index) {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                    if (index == 0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    } else if (index == 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProjectPage()),
+                      );
+                    } else if (index == 2) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CalendarPage()),
+                      );
+                    }
+                  }),
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -136,44 +125,20 @@ final String url =
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
-  Size get preferredSize => Size(double.infinity, 320);
+  Size get preferredSize => Size(double.infinity, 220);
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      clipper: MyClipper(),
       child: Container(
         padding: EdgeInsets.only(top: 4),
-        decoration: BoxDecoration(color: Colors.redAccent, boxShadow: [
+        decoration: BoxDecoration(color: kPrimaryColor, boxShadow: [
           BoxShadow(color: Colors.red, blurRadius: 20, offset: Offset(0, 0))
         ]),
         child: Column(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-                Text(
-                  "Profile",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                )
-              ],
+            SizedBox(
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -182,7 +147,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                   children: <Widget>[
                     Container(
                       width: 100,
-                      height: 100,
+                      height: 80,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -200,36 +165,36 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      "Schedule",
-                      style: TextStyle(color: Colors.white),
+                      "Role",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     Text(
-                      "8",
-                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      "Employee",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     )
                   ],
                 ),
                 Column(
                   children: <Widget>[
                     Text(
-                      "Events",
-                      style: TextStyle(color: Colors.white),
+                      "Department",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     Text(
-                      "12",
-                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      "IT",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     )
                   ],
                 ),
                 Column(
                   children: <Widget>[
                     Text(
-                      "Routines",
-                      style: TextStyle(color: Colors.white),
+                      "Salary",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                     Text(
                       "4",
-                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     )
                   ],
                 ),
@@ -241,11 +206,11 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      "Savings",
+                      "Projects Count",
                       style: TextStyle(color: Colors.white),
                     ),
                     Text(
-                      "20K",
+                      "20",
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     )
                   ],
@@ -256,10 +221,10 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      "July Goals",
+                      "Tasks Count",
                       style: TextStyle(color: Colors.white),
                     ),
-                    Text("50K",
+                    Text("50",
                         style: TextStyle(color: Colors.white, fontSize: 24))
                   ],
                 ),
@@ -278,22 +243,19 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                   print("//TODO: button clicked");
                 },
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 24, 16, 0),
-                  child: Transform.rotate(
-                    angle: (math.pi * 0.05),
-                    child: Container(
-                      width: 110,
-                      height: 32,
-                      child: Center(
-                        child: Text("Edit Profile"),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black12, blurRadius: 20)
-                          ]),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                  child: Container(
+                    width: 110,
+                    height: 32,
+                    child: Center(
+                      child: Text("Save Profile"),
                     ),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 20)
+                        ]),
                   ),
                 ),
               ),
@@ -302,26 +264,5 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
       ),
     );
-  }
-}
-
-class MyClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path p = Path();
-
-    p.lineTo(0, size.height - 70);
-    p.lineTo(size.width, size.height);
-
-    p.lineTo(size.width, 0);
-
-    p.close();
-
-    return p;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
   }
 }
