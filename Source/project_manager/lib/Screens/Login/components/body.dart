@@ -59,6 +59,9 @@ class _BodyState extends State<Body> {
             RoundedButton(
               text: "LOGIN",
               press: () async {
+                setState(() {
+                  _logErr = false;
+                });
                 showLoadingDialog();
                 int value = await getConnect(userName, passWord);
                 if (value != 0)
