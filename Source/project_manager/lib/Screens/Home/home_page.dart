@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
                               ]),
                             ],
                           ),
-                          SizedBox(height: 10.0),
                         ],
                       ),
                     ),
@@ -181,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context) => CalendarPage()),
                         );
                       }
-                      if (index == 2) {
+                      if (index == 3) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

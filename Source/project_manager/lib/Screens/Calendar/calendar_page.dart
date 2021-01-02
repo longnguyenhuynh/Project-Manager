@@ -157,7 +157,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               builder: (context) => ProjectPage()),
                         );
                       }
-                      if (index == 2) {
+                      if (index == 3) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

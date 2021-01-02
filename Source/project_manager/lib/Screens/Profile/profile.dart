@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:project_manager/Screens/Home/home_page.dart';
+import 'package:project_manager/Screens/Project/project_page.dart';
+import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/constants.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   TextStyle _style() {
     return TextStyle(fontWeight: FontWeight.bold);
   }
+
+  int selectedIndex = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -15,64 +27,103 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Name"),
+            Text("Email"),
             SizedBox(
               height: 4,
             ),
             Text(
-              "Milan Short",
+              "abc@123",
               style: _style(),
             ),
             SizedBox(
               height: 16,
             ),
-            Text(
-              "Email",
-              style: _style(),
-            ),
+            Text("Address"),
             SizedBox(
               height: 4,
             ),
-            Text("milan@gmail.com"),
-            SizedBox(
-              height: 16,
-            ),
             Text(
-              "Location",
+              "abc",
               style: _style(),
             ),
             SizedBox(
-              height: 4,
-            ),
-            Text("New York, USA"),
-            SizedBox(
               height: 16,
             ),
+            Text("Phone number"),
+            SizedBox(
+              height: 4,
+            ),
             Text(
-              "Language",
+              "abc",
               style: _style(),
             ),
             SizedBox(
-              height: 4,
-            ),
-            Text("English, French"),
-            SizedBox(
               height: 16,
             ),
-            Text(
-              "Occupation",
-              style: _style(),
+            Container(
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    spreadRadius: -10,
+                    blurRadius: 60,
+                    color: Colors.black.withOpacity(.20),
+                    offset: Offset(0, 15))
+              ]),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: GNav(
+                    gap: 8,
+                    color: Colors.grey[800],
+                    activeColor: kPrimaryColor,
+                    iconSize: 24,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    duration: Duration(milliseconds: 800),
+                    tabs: [
+                      GButton(
+                        icon: Icons.home,
+                        text: 'Home',
+                      ),
+                      GButton(
+                        icon: Icons.lightbulb,
+                        text: 'Project',
+                      ),
+                      GButton(
+                        icon: Icons.calendar_today,
+                        text: 'Calendar',
+                      ),
+                      GButton(
+                        icon: Icons.person,
+                        text: 'Profile',
+                      ),
+                    ],
+                    selectedIndex: selectedIndex,
+                    onTabChange: (index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      if (index == 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectPage()),
+                        );
+                      } else if (index == 2) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CalendarPage()),
+                        );
+                      }
+                      if (index == 3) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
+                        );
+                      }
+                    }),
+              ),
             ),
-            SizedBox(
-              height: 4,
-            ),
-            Text("Employee"),
-            SizedBox(
-              height: 16,
-            ),
-            Divider(
-              color: Colors.grey,
-            )
           ],
         ),
       ),
@@ -246,7 +297,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
