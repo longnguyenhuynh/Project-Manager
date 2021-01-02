@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/task_container.dart';
+import 'package:project_manager/components/google_nav_bar.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -11,6 +11,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   CalendarController _controller;
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -32,7 +33,6 @@ class _CalendarPageState extends State<CalendarPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              MyBackButton(),
               TableCalendar(
                 initialCalendarFormat: CalendarFormat.week,
                 headerStyle: HeaderStyle(
