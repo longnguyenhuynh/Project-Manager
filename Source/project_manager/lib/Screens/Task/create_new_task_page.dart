@@ -98,8 +98,8 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                     chipBackGroundColor: kPrimaryColor,
                     chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                     dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                    checkBoxActiveColor: kPrimaryColor,
-                    checkBoxCheckColor: kGreen,
+                    checkBoxActiveColor: kGreen,
+                    checkBoxCheckColor: Colors.black,
                     dialogShapeBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12.0))),
                     title: Text(

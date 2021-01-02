@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/task_column.dart';
-import 'package:project_manager/components//active_project_card.dart';
-import 'package:project_manager/components/top_container.dart';
+import 'package:project_manager/components/active_project_card.dart';
+import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Task/create_new_task_page.dart';
+import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   Text subheading(String title) {
     return Text(
       title,
@@ -18,92 +23,19 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  static CircleAvatar calendarIcon() {
-    return CircleAvatar(
-      radius: 25.0,
-      backgroundColor: kGreen,
-      child: Icon(
-        Icons.calendar_today,
-        size: 20.0,
-        color: kPrimaryLightColor,
-      ),
-    );
-  }
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: kPrimaryLightColor,
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            TopContainer(
-              height: 135,
-              width: width,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Icon(Icons.menu, color: kPrimaryLightColor, size: 30.0),
-                        Icon(Icons.search,
-                            color: kPrimaryLightColor, size: 30.0),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          CircleAvatar(
-                            backgroundColor: kPrimaryLightColor,
-                            radius: 40.0,
-                            backgroundImage: AssetImage(
-                              'assets/images/avatar.png', // Database
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  'Sourav Suman', // Database
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    color: kPrimaryLightColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  'App Developer', // Database
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white70,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ]),
-            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Container(
-                      color: Colors.transparent,
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       child: Column(
@@ -117,7 +49,6 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   height: 40.0,
                                   width: 120,
-                                  margin: EdgeInsets.only(right: 20.0),
                                   decoration: BoxDecoration(
                                     color: kGreen,
                                     borderRadius: BorderRadius.circular(30),
@@ -142,16 +73,6 @@ class HomePage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CalendarPage()),
-                                    );
-                                  },
-                                  child: calendarIcon(),
                                 ),
                               ]),
                             ],
@@ -183,7 +104,6 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      color: Colors.transparent,
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       child: Column(
@@ -227,6 +147,53 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    spreadRadius: -10,
+                    blurRadius: 60,
+                    color: Colors.black.withOpacity(.20),
+                    offset: Offset(0, 15))
+              ]),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: GNav(
+                    gap: 8,
+                    color: Colors.grey[800],
+                    activeColor: kPrimaryColor,
+                    iconSize: 24,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    duration: Duration(milliseconds: 800),
+                    tabs: [
+                      GButton(
+                        icon: Icons.home,
+                        text: 'Home',
+                      ),
+                      GButton(
+                        icon: Icons.calendar_today,
+                        text: 'Calendar',
+                      ),
+                      GButton(
+                        icon: Icons.person,
+                        text: 'Profile',
+                      ),
+                    ],
+                    selectedIndex: selectedIndex,
+                    onTabChange: (index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      if (index == 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CalendarPage()),
+                        );
+                      }
+                    }),
               ),
             ),
           ],
