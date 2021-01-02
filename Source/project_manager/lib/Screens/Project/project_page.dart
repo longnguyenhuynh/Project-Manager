@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:http/http.dart' as http;
 
 class ProjectPage extends StatefulWidget {
   @override
@@ -17,64 +19,20 @@ class _ProjectPageState extends State<ProjectPage> {
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
-  final List<Map> schoolLists = [
-    {
-      "name": "Edgewick Scchol",
-      "location": "572 Statan NY, 12483",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-    },
-    {
-      "name": "Xaviers International",
-      "location": "234 Road Kathmandu, Nepal",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
-    },
-    {
-      "name": "Kinder Garden",
-      "location": "572 Statan NY, 12483",
-      "type": "Play Group School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
-    },
-    {
-      "name": "WilingTon Cambridge",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-    {
-      "name": "Fredik Panlon",
-      "location": "572 Statan NY, 12483",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-    },
-    {
-      "name": "Whitehouse International",
-      "location": "234 Road Kathmandu, Nepal",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
-    },
-    {
-      "name": "Haward Play",
-      "location": "572 Statan NY, 12483",
-      "type": "Play Group School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
-    },
-    {
-      "name": "Campare Handeson",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-  ];
+
+  List<Map> projectList; // List of project
+
+  Future<List<Map>> getMethod() async {
+    String url = "https://phuidatabase.000webhostapp.com/project.php";
+    var res = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var body = json.decode(res.body);
+    return body;
+  }
+
+  void createProjectList() async {
+    projectList = await getMethod();
+  }
 
   Text subheading(String title) {
     return Text(
@@ -89,6 +47,7 @@ class _ProjectPageState extends State<ProjectPage> {
 
   @override
   Widget build(BuildContext context) {
+    createProjectList();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -128,7 +87,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
                       child: ListView.builder(
-                          itemCount: schoolLists.length,
+                          itemCount: projectList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return buildList(context, index);
                           }),
@@ -216,20 +175,20 @@ class _ProjectPageState extends State<ProjectPage> {
             width: 50,
             height: 50,
             margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(width: 3, color: secondary),
-              image: DecorationImage(
-                  image: NetworkImage(schoolLists[index]['logoText']),
-                  fit: BoxFit.fill),
-            ),
+            // decoration: BoxDecoration(
+            //   borderRadius: BorderRadius.circular(50),
+            //   border: Border.all(width: 3, color: secondary),
+            //   image: DecorationImage(
+            //       //image: NetworkImage(schoolLists[index]['logoText']),
+            //       fit: BoxFit.fill),
+            // ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  schoolLists[index]['name'],
+                  projectList[index]['name'],
                   style: TextStyle(
                       color: primary,
                       fontWeight: FontWeight.bold,
@@ -248,28 +207,13 @@ class _ProjectPageState extends State<ProjectPage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(schoolLists[index]['location'],
+                    Text(projectList[index]['id'],
                         style: TextStyle(
                             color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
                 ),
                 SizedBox(
                   height: 6,
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.school,
-                      color: secondary,
-                      size: 20,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(schoolLists[index]['type'],
-                        style: TextStyle(
-                            color: primary, fontSize: 13, letterSpacing: .3)),
-                  ],
                 ),
               ],
             ),

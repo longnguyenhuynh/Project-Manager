@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
@@ -18,7 +18,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     String userName;
     String passWord;
-    bool logErr = false; //set visible for error login text
+    //bool logErr = false; //set visible for error login text
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
