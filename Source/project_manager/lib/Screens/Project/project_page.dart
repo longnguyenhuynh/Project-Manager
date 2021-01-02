@@ -123,6 +123,16 @@ class _ProjectPageState extends State<ProjectPage> {
                         ),
                       ),
                     ),
+                    Container(
+                      padding: EdgeInsets.only(top: 0),
+                      height: MediaQuery.of(context).size.height,
+                      width: double.infinity,
+                      child: ListView.builder(
+                          itemCount: schoolLists.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildList(context, index);
+                          }),
+                    ),
                   ],
                 ),
               ),
@@ -185,6 +195,86 @@ class _ProjectPageState extends State<ProjectPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildList(BuildContext context, int index) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Colors.white,
+      ),
+      width: double.infinity,
+      height: 110,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 50,
+            height: 50,
+            margin: EdgeInsets.only(right: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(width: 3, color: secondary),
+              image: DecorationImage(
+                  image: NetworkImage(schoolLists[index]['logoText']),
+                  fit: BoxFit.fill),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  schoolLists[index]['name'],
+                  style: TextStyle(
+                      color: primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.location_on,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['location'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.school,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['type'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
