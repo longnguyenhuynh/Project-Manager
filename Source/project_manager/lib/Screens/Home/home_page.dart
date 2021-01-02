@@ -6,6 +6,7 @@ import 'package:project_manager/Screens/Task/create_new_task_page.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
+import 'package:project_manager/Screens/Admin/admin.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -161,6 +162,10 @@ class _HomePageState extends State<HomePage> {
                         icon: Icons.person,
                         text: 'Profile',
                       ),
+                      GButton(
+                        icon: Icons.star,
+                        text: 'Admin',
+                      ),
                     ],
                     selectedIndex: selectedIndex,
                     onTabChange: (index) {
@@ -179,12 +184,16 @@ class _HomePageState extends State<HomePage> {
                           MaterialPageRoute(
                               builder: (context) => CalendarPage()),
                         );
-                      }
-                      if (index == 3) {
+                      } else if (index == 3) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage()),
+                        );
+                      } else if (index == 4) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AdminPage()),
                         );
                       }
                     }),

@@ -6,6 +6,7 @@ import 'package:project_manager/components/task_container.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
+import 'package:project_manager/Screens/Admin/admin.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -139,6 +140,10 @@ class _CalendarPageState extends State<CalendarPage> {
                         icon: Icons.person,
                         text: 'Profile',
                       ),
+                      GButton(
+                        icon: Icons.star,
+                        text: 'Admin',
+                      ),
                     ],
                     selectedIndex: selectedIndex,
                     onTabChange: (index) {
@@ -156,12 +161,16 @@ class _CalendarPageState extends State<CalendarPage> {
                           MaterialPageRoute(
                               builder: (context) => ProjectPage()),
                         );
-                      }
-                      if (index == 3) {
+                      } else if (index == 3) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage()),
+                        );
+                      } else if (index == 4) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AdminPage()),
                         );
                       }
                     }),
