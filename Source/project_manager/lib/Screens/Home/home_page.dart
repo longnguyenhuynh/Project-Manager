@@ -4,6 +4,7 @@ import 'package:project_manager/components/active_project_card.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Task/create_new_task_page.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -77,7 +78,6 @@ class _HomePageState extends State<HomePage> {
                               ]),
                             ],
                           ),
-                          SizedBox(height: 10.0),
                         ],
                       ),
                     ),
@@ -178,6 +178,13 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => CalendarPage()),
+                        );
+                      }
+                      if (index == 3) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
                         );
                       }
                     }),
