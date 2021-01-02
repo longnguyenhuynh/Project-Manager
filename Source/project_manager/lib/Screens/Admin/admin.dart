@@ -13,7 +13,7 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
-  int selectedIndex = 1;
+  int selectedIndex = 4;
   final TextStyle dropdownMenuItem =
       TextStyle(color: Colors.black, fontSize: 18);
 
@@ -110,7 +110,7 @@ class _AdminPageState extends State<AdminPage> {
                           cursorColor: Theme.of(context).primaryColor,
                           style: dropdownMenuItem,
                           decoration: InputDecoration(
-                              hintText: "Search Project",
+                              hintText: "Search Employee",
                               hintStyle: TextStyle(
                                   color: Colors.black38, fontSize: 16),
                               prefixIcon: Material(
@@ -156,27 +156,21 @@ class _AdminPageState extends State<AdminPage> {
                     activeColor: kPrimaryColor,
                     iconSize: 24,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    duration: Duration(milliseconds: 800),
                     tabs: [
                       GButton(
                         icon: Icons.home,
-                        text: 'Home',
                       ),
                       GButton(
                         icon: Icons.lightbulb,
-                        text: 'Project',
                       ),
                       GButton(
                         icon: Icons.calendar_today,
-                        text: 'Calendar',
                       ),
                       GButton(
                         icon: Icons.person,
-                        text: 'Profile',
                       ),
                       GButton(
                         icon: Icons.star,
-                        text: 'Admin',
                       ),
                     ],
                     selectedIndex: selectedIndex,

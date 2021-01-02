@@ -71,27 +71,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   activeColor: kPrimaryColor,
                   iconSize: 24,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  duration: Duration(milliseconds: 800),
                   tabs: [
                     GButton(
                       icon: Icons.home,
-                      text: 'Home',
                     ),
                     GButton(
                       icon: Icons.lightbulb,
-                      text: 'Project',
                     ),
                     GButton(
                       icon: Icons.calendar_today,
-                      text: 'Calendar',
                     ),
                     GButton(
                       icon: Icons.person,
-                      text: 'Profile',
                     ),
                     GButton(
                       icon: Icons.star,
-                      text: 'Admin',
                     ),
                   ],
                   selectedIndex: selectedIndex,
