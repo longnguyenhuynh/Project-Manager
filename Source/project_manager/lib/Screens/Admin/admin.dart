@@ -1,41 +1,82 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
-import 'package:http/http.dart' as http;
-import 'package:project_manager/Screens/Admin/admin.dart';
+import 'package:project_manager/Screens/Project/project_page.dart';
 
-
-class ProjectPage extends StatefulWidget {
+class AdminPage extends StatefulWidget {
   @override
-  ProjectPage({Key key}) : super(key: key);
-  _ProjectPageState createState() => _ProjectPageState();
+  AdminPage({Key key}) : super(key: key);
+  _AdminPageState createState() => _AdminPageState();
 }
 
-class _ProjectPageState extends State<ProjectPage> {
-  int selectedIndex = 1;
+class _AdminPageState extends State<AdminPage> {
+  int selectedIndex = 4;
   final TextStyle dropdownMenuItem =
       TextStyle(color: Colors.black, fontSize: 18);
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
-
-  List<Map> projectList; // List of project
-
-  Future<List<Map>> getMethod() async {
-    String url = "https://phuidatabase.000webhostapp.com/project.php";
-    var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    var body = json.decode(res.body);
-    return body;
-  }
-
-  void createProjectList() async {
-    projectList = await getMethod();
-  }
+  final List<Map> schoolLists = [
+    {
+      "name": "Edgewick Scchol",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Xaviers International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Kinder Garden",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "WilingTon Cambridge",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+    {
+      "name": "Fredik Panlon",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Whitehouse International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Haward Play",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "Campare Handeson",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+  ];
 
   Text subheading(String title) {
     return Text(
@@ -50,7 +91,6 @@ class _ProjectPageState extends State<ProjectPage> {
 
   @override
   Widget build(BuildContext context) {
-    createProjectList();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -70,7 +110,7 @@ class _ProjectPageState extends State<ProjectPage> {
                           cursorColor: Theme.of(context).primaryColor,
                           style: dropdownMenuItem,
                           decoration: InputDecoration(
-                              hintText: "Search Project",
+                              hintText: "Search Employee",
                               hintStyle: TextStyle(
                                   color: Colors.black38, fontSize: 16),
                               prefixIcon: Material(
@@ -90,7 +130,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
                       child: ListView.builder(
-                          itemCount: projectList.length,
+                          itemCount: schoolLists.length,
                           itemBuilder: (BuildContext context, int index) {
                             return buildList(context, index);
                           }),
@@ -143,6 +183,12 @@ class _ProjectPageState extends State<ProjectPage> {
                           context,
                           MaterialPageRoute(builder: (context) => HomePage()),
                         );
+                      } else if (index == 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectPage()),
+                        );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
@@ -154,11 +200,6 @@ class _ProjectPageState extends State<ProjectPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage()),
-                        );
-                      } else if (index == 4) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AdminPage()),
                         );
                       }
                     }),
@@ -187,20 +228,20 @@ class _ProjectPageState extends State<ProjectPage> {
             width: 50,
             height: 50,
             margin: EdgeInsets.only(right: 15),
-            // decoration: BoxDecoration(
-            //   borderRadius: BorderRadius.circular(50),
-            //   border: Border.all(width: 3, color: secondary),
-            //   image: DecorationImage(
-            //       //image: NetworkImage(schoolLists[index]['logoText']),
-            //       fit: BoxFit.fill),
-            // ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(width: 3, color: secondary),
+              image: DecorationImage(
+                  image: NetworkImage(schoolLists[index]['logoText']),
+                  fit: BoxFit.fill),
+            ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  projectList[index]['name'],
+                  schoolLists[index]['name'],
                   style: TextStyle(
                       color: primary,
                       fontWeight: FontWeight.bold,
@@ -219,13 +260,28 @@ class _ProjectPageState extends State<ProjectPage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(projectList[index]['id'],
+                    Text(schoolLists[index]['location'],
                         style: TextStyle(
                             color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
                 ),
                 SizedBox(
                   height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.school,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['type'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
                 ),
               ],
             ),

@@ -4,7 +4,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/task_container.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
+import 'package:project_manager/Screens/Admin/admin.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -120,23 +122,21 @@ class _CalendarPageState extends State<CalendarPage> {
                     activeColor: kPrimaryColor,
                     iconSize: 24,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    duration: Duration(milliseconds: 800),
                     tabs: [
                       GButton(
                         icon: Icons.home,
-                        text: 'Home',
                       ),
                       GButton(
                         icon: Icons.lightbulb,
-                        text: 'Project',
                       ),
                       GButton(
                         icon: Icons.calendar_today,
-                        text: 'Calendar',
                       ),
                       GButton(
                         icon: Icons.person,
-                        text: 'Profile',
+                      ),
+                      GButton(
+                        icon: Icons.star,
                       ),
                     ],
                     selectedIndex: selectedIndex,
@@ -154,6 +154,17 @@ class _CalendarPageState extends State<CalendarPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProjectPage()),
+                        );
+                      } else if (index == 3) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
+                        );
+                      } else if (index == 4) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AdminPage()),
                         );
                       }
                     }),
