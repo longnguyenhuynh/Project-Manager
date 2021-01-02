@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Login/components/background.dart';
@@ -45,14 +44,6 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return HomePage();
-                    },
-                  ),
-                );
                 int value = await getConnect(userName, passWord);
                 if (value != 0)
                   Navigator.push(
@@ -78,10 +69,10 @@ class Body extends StatelessWidget {
       'userName': userName,
       'passWord': passWord,
     };
-
-    var url = 'https://phuidatabase.000webhostapp.com/getData.php';
+    var url = 'https://phuidatabase.000webhostapp.com/login.php';
     String queryString = Uri(queryParameters: loginInfo).query;
     var requestUrl = url + '?' + queryString;
+    print(requestUrl);
     http.Response response = await http.get(requestUrl);
     var data = response.body;
     int a = int.parse(data.toString());
