@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/task_container.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/Screens/Profile/profile.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -143,6 +144,13 @@ class _CalendarPageState extends State<CalendarPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      }
+                      if (index == 2) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
                         );
                       }
                     }),
