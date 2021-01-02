@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/task_column.dart';
 import 'package:project_manager/components/active_project_card.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Task/create_new_task_page.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:project_manager/Screens/Project/project_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
+
   Text subheading(String title) {
     return Text(
       title,
@@ -22,8 +24,6 @@ class _HomePageState extends State<HomePage> {
           letterSpacing: 1.2),
     );
   }
-
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              subheading('Tasks'),
+                              subheading('Task'),
                               Row(children: <Widget>[
                                 Container(
                                   height: 40.0,
@@ -77,29 +77,7 @@ class _HomePageState extends State<HomePage> {
                               ]),
                             ],
                           ),
-                          SizedBox(height: 15.0),
-                          TaskColumn(
-                            icon: Icons.alarm,
-                            iconBackgroundColor: kRed,
-                            title: 'To Do',
-                            subtitle: '5 tasks now. 1 started', // Database
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TaskColumn(
-                            icon: Icons.blur_circular,
-                            iconBackgroundColor: kDarkYellow,
-                            title: 'In Progress',
-                            subtitle: '1 tasks now. 1 started', // Database
-                          ),
-                          SizedBox(height: 15.0),
-                          TaskColumn(
-                            icon: Icons.check_circle_outline,
-                            iconBackgroundColor: kBlue,
-                            title: 'Done',
-                            subtitle: '18 tasks now. 13 started', // Database
-                          ),
+                          SizedBox(height: 10.0),
                         ],
                       ),
                     ),
@@ -109,8 +87,7 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          subheading('Active Projects'),
-                          SizedBox(height: 5.0),
+                          SizedBox(height: 10.0),
                           // Database
                           Row(
                             children: <Widget>[
@@ -173,6 +150,10 @@ class _HomePageState extends State<HomePage> {
                         text: 'Home',
                       ),
                       GButton(
+                        icon: Icons.lightbulb,
+                        text: 'Project',
+                      ),
+                      GButton(
                         icon: Icons.calendar_today,
                         text: 'Calendar',
                       ),
@@ -187,6 +168,12 @@ class _HomePageState extends State<HomePage> {
                         selectedIndex = index;
                       });
                       if (index == 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectPage()),
+                        );
+                      } else if (index == 2) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
