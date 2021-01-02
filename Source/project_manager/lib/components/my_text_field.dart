@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
+  final initValue;
   final String label;
   final int maxLines;
   final int minLines;
   final Icon icon;
-  MyTextField({this.label, this.maxLines = 1, this.minLines = 1, this.icon});
+  MyTextField(
+      {this.initValue,
+      this.label,
+      this.maxLines = 1,
+      this.minLines = 1,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      initialValue: initValue == null ? '' : initValue,
       style: TextStyle(color: Colors.black87),
       minLines: minLines,
       maxLines: maxLines,
