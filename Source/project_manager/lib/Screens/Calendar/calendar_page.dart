@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/task_container.dart';
@@ -11,7 +12,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   CalendarController _controller;
-  int selectedIndex = 0;
+  int selectedIndex = 1;
 
   @override
   void initState() {
@@ -105,6 +106,53 @@ class _CalendarPageState extends State<CalendarPage> {
                       ],
                     ),
                   ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  BoxShadow(
+                      spreadRadius: -10,
+                      blurRadius: 60,
+                      color: Colors.black.withOpacity(.20),
+                      offset: Offset(0, 15))
+                ]),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 10),
+                  child: GNav(
+                      gap: 8,
+                      color: Colors.grey[800],
+                      activeColor: kPrimaryColor,
+                      iconSize: 24,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      duration: Duration(milliseconds: 800),
+                      tabs: [
+                        GButton(
+                          icon: Icons.home,
+                          text: 'Home',
+                        ),
+                        GButton(
+                          icon: Icons.calendar_today,
+                          text: 'Calendar',
+                        ),
+                        GButton(
+                          icon: Icons.person,
+                          text: 'Profile',
+                        ),
+                      ],
+                      selectedIndex: selectedIndex,
+                      onTabChange: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                        if (index == 0) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        }
+                      }),
                 ),
               ),
             ],
