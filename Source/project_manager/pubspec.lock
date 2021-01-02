@@ -81,20 +81,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  http:
+
+  google_nav_bar:
     dependency: "direct main"
     description:
-      name: http
+      name: google_nav_bar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.2"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.4"
+    version: "3.1.0"
+
   intl:
     dependency: transitive
     description:
@@ -144,20 +139,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.9.2"
-  percent_indicator:
-    dependency: "direct main"
-    description:
-      name: percent_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.9"
   petitparser:
     dependency: transitive
     description:
