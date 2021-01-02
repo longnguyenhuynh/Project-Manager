@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/components/task_container.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/Screens/Project/project_page.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   CalendarController _controller;
-  int selectedIndex = 1;
+  int selectedIndex = 2;
 
   @override
   void initState() {
@@ -126,6 +127,10 @@ class _CalendarPageState extends State<CalendarPage> {
                         text: 'Home',
                       ),
                       GButton(
+                        icon: Icons.lightbulb,
+                        text: 'Project',
+                      ),
+                      GButton(
                         icon: Icons.calendar_today,
                         text: 'Calendar',
                       ),
@@ -143,6 +148,12 @@ class _CalendarPageState extends State<CalendarPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      } else if (index == 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectPage()),
                         );
                       }
                     }),

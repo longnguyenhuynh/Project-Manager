@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Login/components/background.dart';
@@ -5,6 +7,7 @@ import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/components/rounded_input_field.dart';
 import 'package:project_manager/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 
 class Body extends StatelessWidget {
   const Body({
@@ -13,6 +16,9 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String userName;
+    String passWord;
+    bool logErr = false; //set visible for error login text
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -28,14 +34,18 @@ class Body extends StatelessWidget {
             RoundedInputField(
               hintText: "Username",
               icon: Icons.account_circle,
-              onChanged: (value) {},
+              onChanged: (value) {
+                userName = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                passWord = value;
+              },
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {
+              press: () async {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -44,11 +54,38 @@ class Body extends StatelessWidget {
                     },
                   ),
                 );
+                int value = await getConnect(userName, passWord);
+                if (value != 0)
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return HomePage();
+                      },
+                    ),
+                  );
+                else
+                  print('sai thông tin rồi thằng ngu');
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<int> getConnect(String userName, String passWord) async {
+    Map<String, String> loginInfo = {
+      'userName': userName,
+      'passWord': passWord,
+    };
+
+    var url = 'https://phuidatabase.000webhostapp.com/getData.php';
+    String queryString = Uri(queryParameters: loginInfo).query;
+    var requestUrl = url + '?' + queryString;
+    http.Response response = await http.get(requestUrl);
+    var data = response.body;
+    int a = int.parse(data.toString());
+    return a;
   }
 }
