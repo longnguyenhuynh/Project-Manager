@@ -21,6 +21,8 @@ class _ProjectPageState extends State<ProjectPage> {
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
 
+  List projectList;
+
   getMethod() async {
     String url = "https://phuidatabase.000webhostapp.com/project.php";
     var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
@@ -75,7 +77,15 @@ class _ProjectPageState extends State<ProjectPage> {
                       child: FutureBuilder(
                         future: getMethod(),
                         builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          List projectList = snapshot.data;
+                          if (projectList != null) {
+                            return ListView.builder(
+                              itemCount: projectList.length,
+                              itemBuilder: (context, index) {
+                                return buildList(context, index, projectList);
+                              },
+                            );
+                          }
+                          projectList = snapshot.data;
                           if (snapshot.connectionState == ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(),
