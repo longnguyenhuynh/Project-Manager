@@ -8,7 +8,6 @@ import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_manager/Screens/Admin/admin.dart';
 
-
 class ProjectPage extends StatefulWidget {
   @override
   ProjectPage({Key key}) : super(key: key);
@@ -17,40 +16,28 @@ class ProjectPage extends StatefulWidget {
 
 class _ProjectPageState extends State<ProjectPage> {
   int selectedIndex = 1;
-  final TextStyle dropdownMenuItem =
-      TextStyle(color: Colors.black, fontSize: 18);
+  final TextStyle dropdownMenuItem = TextStyle(color: Colors.black, fontSize: 18);
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
 
-  List<Map> projectList; // List of project
-
-  Future<List<Map>> getMethod() async {
+  getMethod() async {
     String url = "https://phuidatabase.000webhostapp.com/project.php";
-    var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     return body;
-  }
-
-  void createProjectList() async {
-    projectList = await getMethod();
   }
 
   Text subheading(String title) {
     return Text(
       title,
       style: TextStyle(
-          color: kDarkBlue,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2),
+          color: kDarkBlue, fontSize: 20.0, fontWeight: FontWeight.w700, letterSpacing: 1.2),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    createProjectList();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -60,8 +47,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                       child: Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -71,17 +57,14 @@ class _ProjectPageState extends State<ProjectPage> {
                           style: dropdownMenuItem,
                           decoration: InputDecoration(
                               hintText: "Search Project",
-                              hintStyle: TextStyle(
-                                  color: Colors.black38, fontSize: 16),
+                              hintStyle: TextStyle(color: Colors.black38, fontSize: 16),
                               prefixIcon: Material(
                                 elevation: 0.0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
                                 child: Icon(Icons.search),
                               ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                         ),
                       ),
                     ),
@@ -89,11 +72,23 @@ class _ProjectPageState extends State<ProjectPage> {
                       padding: EdgeInsets.only(top: 0),
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
-                      child: ListView.builder(
-                          itemCount: projectList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return buildList(context, index);
-                          }),
+                      child: FutureBuilder(
+                        future: getMethod(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          List projectList = snapshot.data;
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: projectList.length,
+                            itemBuilder: (context, index) {
+                              return buildList(context, index, projectList);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -108,8 +103,7 @@ class _ProjectPageState extends State<ProjectPage> {
                     offset: Offset(0, 15))
               ]),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GNav(
                     gap: 8,
                     color: Colors.grey[800],
@@ -146,14 +140,12 @@ class _ProjectPageState extends State<ProjectPage> {
                       } else if (index == 2) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => CalendarPage()),
+                          MaterialPageRoute(builder: (context) => CalendarPage()),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                          MaterialPageRoute(builder: (context) => ProfilePage()),
                         );
                       } else if (index == 4) {
                         Navigator.push(
@@ -170,7 +162,7 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  Widget buildList(BuildContext context, int index) {
+  Widget buildList(BuildContext context, int index, List projectList) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
@@ -200,11 +192,8 @@ class _ProjectPageState extends State<ProjectPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  projectList[index]['name'],
-                  style: TextStyle(
-                      color: primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                  "Project Name:  " + projectList[index]['name'],
+                  style: TextStyle(color: primary, fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 SizedBox(
                   height: 6,
@@ -220,8 +209,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       width: 5,
                     ),
                     Text(projectList[index]['id'],
-                        style: TextStyle(
-                            color: primary, fontSize: 13, letterSpacing: .3)),
+                        style: TextStyle(color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
                 ),
                 SizedBox(
