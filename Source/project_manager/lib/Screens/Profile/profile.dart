@@ -145,7 +145,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
+              children: <Widget>[ 
                 Column(
                   children: <Widget>[
                     Container(
