@@ -7,15 +7,16 @@ import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
 
 class AdminPage extends StatefulWidget {
+  final int id;
+  AdminPage({Key key, this.id}) : super(key: key);
+
   @override
-  AdminPage({Key key}) : super(key: key);
   _AdminPageState createState() => _AdminPageState();
 }
 
 class _AdminPageState extends State<AdminPage> {
   int selectedIndex = 4;
-  final TextStyle dropdownMenuItem =
-      TextStyle(color: Colors.black, fontSize: 18);
+  final TextStyle dropdownMenuItem = TextStyle(color: Colors.black, fontSize: 18);
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
@@ -24,57 +25,49 @@ class _AdminPageState extends State<AdminPage> {
       "name": "Edgewick Scchol",
       "location": "572 Statan NY, 12483",
       "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
     },
     {
       "name": "Xaviers International",
       "location": "234 Road Kathmandu, Nepal",
       "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
     },
     {
       "name": "Kinder Garden",
       "location": "572 Statan NY, 12483",
       "type": "Play Group School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
     },
     {
       "name": "WilingTon Cambridge",
       "location": "Kasai Pantan NY, 12483",
       "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
     },
     {
       "name": "Fredik Panlon",
       "location": "572 Statan NY, 12483",
       "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
     },
     {
       "name": "Whitehouse International",
       "location": "234 Road Kathmandu, Nepal",
       "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
     },
     {
       "name": "Haward Play",
       "location": "572 Statan NY, 12483",
       "type": "Play Group School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
     },
     {
       "name": "Campare Handeson",
       "location": "Kasai Pantan NY, 12483",
       "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+      "logoText": "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
     },
   ];
 
@@ -82,10 +75,7 @@ class _AdminPageState extends State<AdminPage> {
     return Text(
       title,
       style: TextStyle(
-          color: kDarkBlue,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2),
+          color: kDarkBlue, fontSize: 20.0, fontWeight: FontWeight.w700, letterSpacing: 1.2),
     );
   }
 
@@ -100,8 +90,7 @@ class _AdminPageState extends State<AdminPage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                       child: Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -111,17 +100,14 @@ class _AdminPageState extends State<AdminPage> {
                           style: dropdownMenuItem,
                           decoration: InputDecoration(
                               hintText: "Search Employee",
-                              hintStyle: TextStyle(
-                                  color: Colors.black38, fontSize: 16),
+                              hintStyle: TextStyle(color: Colors.black38, fontSize: 16),
                               prefixIcon: Material(
                                 elevation: 0.0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
                                 child: Icon(Icons.search),
                               ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                         ),
                       ),
                     ),
@@ -148,8 +134,7 @@ class _AdminPageState extends State<AdminPage> {
                     offset: Offset(0, 15))
               ]),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GNav(
                     gap: 8,
                     color: Colors.grey[800],
@@ -186,20 +171,17 @@ class _AdminPageState extends State<AdminPage> {
                       } else if (index == 1) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProjectPage()),
+                          MaterialPageRoute(builder: (context) => ProjectPage()),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => CalendarPage()),
+                          MaterialPageRoute(builder: (context) => CalendarPage()),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                          MaterialPageRoute(builder: (context) => ProfilePage()),
                         );
                       }
                     }),
@@ -232,8 +214,7 @@ class _AdminPageState extends State<AdminPage> {
               borderRadius: BorderRadius.circular(50),
               border: Border.all(width: 3, color: secondary),
               image: DecorationImage(
-                  image: NetworkImage(schoolLists[index]['logoText']),
-                  fit: BoxFit.fill),
+                  image: NetworkImage(schoolLists[index]['logoText']), fit: BoxFit.fill),
             ),
           ),
           Expanded(
@@ -242,10 +223,7 @@ class _AdminPageState extends State<AdminPage> {
               children: <Widget>[
                 Text(
                   schoolLists[index]['name'],
-                  style: TextStyle(
-                      color: primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                  style: TextStyle(color: primary, fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 SizedBox(
                   height: 6,
@@ -261,8 +239,7 @@ class _AdminPageState extends State<AdminPage> {
                       width: 5,
                     ),
                     Text(schoolLists[index]['location'],
-                        style: TextStyle(
-                            color: primary, fontSize: 13, letterSpacing: .3)),
+                        style: TextStyle(color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
                 ),
                 SizedBox(
@@ -279,8 +256,7 @@ class _AdminPageState extends State<AdminPage> {
                       width: 5,
                     ),
                     Text(schoolLists[index]['type'],
-                        style: TextStyle(
-                            color: primary, fontSize: 13, letterSpacing: .3)),
+                        style: TextStyle(color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
                 ),
               ],

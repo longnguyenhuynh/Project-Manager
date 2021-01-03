@@ -9,8 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:project_manager/Screens/Admin/admin.dart';
 
 class ProjectPage extends StatefulWidget {
+  final int id;
+  ProjectPage({Key key, this.id}) : super(key: key);
+
   @override
-  ProjectPage({Key key}) : super(key: key);
   _ProjectPageState createState() => _ProjectPageState();
 }
 
@@ -24,7 +26,7 @@ class _ProjectPageState extends State<ProjectPage> {
   List projectList;
 
   getMethod() async {
-    String url = "https://phuidatabase.000webhostapp.com/project.php";
+    String url = "https://phuidatabase.000webhostapp.com/getProjectData.php";
     var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     return body;

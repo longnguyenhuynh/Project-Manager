@@ -8,6 +8,9 @@ import 'package:project_manager/components/my_text_field.dart';
 import 'package:project_manager/Screens/Admin/admin.dart';
 
 class ProfilePage extends StatefulWidget {
+  final int id;
+  ProfilePage({Key key, this.id}) : super(key: key);
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -63,8 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   offset: Offset(0, 15))
             ]),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               child: GNav(
                   gap: 8,
                   color: Colors.grey[800],
@@ -123,8 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-final String url =
-    "http://chuteirafc.cartacapital.com.br/wp-content/uploads/2018/12/15347041965884.jpg";
+final String url = "https:\/\/phuidatabase.000webhostapp.com\/photo\/profile.jpg";
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -135,9 +136,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
     return ClipPath(
       child: Container(
         padding: EdgeInsets.only(top: 4),
-        decoration: BoxDecoration(color: kPrimaryColor, boxShadow: [
-          BoxShadow(color: Colors.red, blurRadius: 20, offset: Offset(0, 0))
-        ]),
+        decoration: BoxDecoration(
+            color: kPrimaryColor,
+            boxShadow: [BoxShadow(color: Colors.red, blurRadius: 20, offset: Offset(0, 0))]),
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -145,7 +146,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[ 
+              children: <Widget>[
                 Column(
                   children: <Widget>[
                     Container(
@@ -153,8 +154,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                       height: 80,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover, image: NetworkImage(url))),
+                          image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(url))),
                     ),
                     SizedBox(
                       height: 16,
@@ -227,8 +227,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                       "Tasks Count",
                       style: TextStyle(color: Colors.white),
                     ),
-                    Text("50",
-                        style: TextStyle(color: Colors.white, fontSize: 24))
+                    Text("50", style: TextStyle(color: Colors.white, fontSize: 24))
                   ],
                 ),
                 SizedBox(
@@ -256,9 +255,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(16)),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 20)
-                        ]),
+                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 20)]),
                   ),
                 ),
               ),
