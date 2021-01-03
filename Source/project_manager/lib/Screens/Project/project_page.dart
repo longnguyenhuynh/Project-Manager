@@ -26,7 +26,7 @@ class _ProjectPageState extends State<ProjectPage> {
   List projectList;
 
   getMethod() async {
-    String url = "https://phuidatabase.000webhostapp.com/project.php";
+    String url = "https://phuidatabase.000webhostapp.com/getProjectData.php";
     var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     return body;

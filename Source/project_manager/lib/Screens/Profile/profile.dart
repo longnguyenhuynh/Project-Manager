@@ -125,8 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-final String url =
-    "http://chuteirafc.cartacapital.com.br/wp-content/uploads/2018/12/15347041965884.jpg";
+final String url = "https:\/\/phuidatabase.000webhostapp.com\/photo\/profile.jpg";
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
