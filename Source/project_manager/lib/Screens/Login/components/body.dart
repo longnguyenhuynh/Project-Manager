@@ -52,8 +52,7 @@ class _BodyState extends State<Body> {
                 'Sai thông tin đăng nhập',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: kRed, fontSize: 15),
+                style: TextStyle(fontWeight: FontWeight.bold, color: kRed, fontSize: 15),
               ),
             ),
             RoundedButton(
@@ -70,7 +69,7 @@ class _BodyState extends State<Body> {
                     MaterialPageRoute(
                       builder: (context) {
                         hideLoadingDialog();
-                        return HomePage();
+                        return HomePage(id: value);
                       },
                     ),
                   );
@@ -98,7 +97,10 @@ class _BodyState extends State<Body> {
     var requestUrl = url + '?' + queryString;
     http.Response response = await http.get(requestUrl);
     var data = response.body;
-    int a = int.parse(data.toString());
+    int a = 0;
+    if (data != '') {
+      a = int.parse(data.toString());
+    }
     return a;
   }
 }

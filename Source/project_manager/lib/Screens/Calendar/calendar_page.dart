@@ -9,6 +9,9 @@ import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:project_manager/Screens/Admin/admin.dart';
 
 class CalendarPage extends StatefulWidget {
+  final int id;
+  CalendarPage({Key key, this.id}) : super(key: key);
+
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
@@ -46,9 +49,8 @@ class _CalendarPageState extends State<CalendarPage> {
                 selectedDayBuilder: (context, date, events) => Container(
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: kGreen,
-                        borderRadius: BorderRadius.circular(10.0)),
+                    decoration:
+                        BoxDecoration(color: kGreen, borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),
@@ -57,8 +59,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(10.0)),
+                        color: kPrimaryColor, borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),
@@ -87,8 +88,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             // Database
                             TaskContainer(
                               title: 'Project Research',
-                              subtitle:
-                                  'Discuss with the colleagues about the future plan',
+                              subtitle: 'Discuss with the colleagues about the future plan',
                               boxColor: kLightYellow2,
                             ),
 
@@ -114,8 +114,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     offset: Offset(0, 15))
               ]),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GNav(
                     gap: 8,
                     color: Colors.grey[800],
@@ -152,14 +151,12 @@ class _CalendarPageState extends State<CalendarPage> {
                       } else if (index == 1) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProjectPage()),
+                          MaterialPageRoute(builder: (context) => ProjectPage()),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                          MaterialPageRoute(builder: (context) => ProfilePage()),
                         );
                       } else if (index == 4) {
                         Navigator.push(

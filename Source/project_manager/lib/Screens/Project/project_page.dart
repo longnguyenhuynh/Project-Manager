@@ -9,8 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:project_manager/Screens/Admin/admin.dart';
 
 class ProjectPage extends StatefulWidget {
+  final int id;
+  ProjectPage({Key key, this.id}) : super(key: key);
+
   @override
-  ProjectPage({Key key}) : super(key: key);
   _ProjectPageState createState() => _ProjectPageState();
 }
 

@@ -9,21 +9,20 @@ import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:project_manager/Screens/Admin/admin.dart';
 
 class HomePage extends StatefulWidget {
+  final int id;
+  HomePage({Key key, this.id}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
-
   Text subheading(String title) {
     return Text(
       title,
       style: TextStyle(
-          color: kDarkBlue,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2),
+          color: kDarkBlue, fontSize: 20.0, fontWeight: FontWeight.w700, letterSpacing: 1.2),
     );
   }
 
@@ -38,8 +37,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -60,8 +58,7 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateNewTaskPage(),
+                                          builder: (context) => CreateNewTaskPage(),
                                         ),
                                       );
                                     },
@@ -83,8 +80,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -136,8 +132,7 @@ class _HomePageState extends State<HomePage> {
                     offset: Offset(0, 15))
               ]),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GNav(
                     gap: 8,
                     color: Colors.grey[800],
@@ -169,25 +164,22 @@ class _HomePageState extends State<HomePage> {
                       if (index == 1) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProjectPage()),
+                          MaterialPageRoute(builder: (context) => ProjectPage(id: widget.id)),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => CalendarPage()),
+                          MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                          MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
                         );
                       } else if (index == 4) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AdminPage()),
+                          MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
                         );
                       }
                     }),
@@ -199,3 +191,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+class $ {}
