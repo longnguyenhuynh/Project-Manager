@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
@@ -22,64 +24,74 @@ class _AdminPageState extends State<AdminPage> {
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
-  final List<Map> schoolLists = [
-    {
-      "name": "Edgewick Scchol",
-      "location": "572 Statan NY, 12483",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-    },
-    {
-      "name": "Xaviers International",
-      "location": "234 Road Kathmandu, Nepal",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
-    },
-    {
-      "name": "Kinder Garden",
-      "location": "572 Statan NY, 12483",
-      "type": "Play Group School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
-    },
-    {
-      "name": "WilingTon Cambridge",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-    {
-      "name": "Fredik Panlon",
-      "location": "572 Statan NY, 12483",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-    },
-    {
-      "name": "Whitehouse International",
-      "location": "234 Road Kathmandu, Nepal",
-      "type": "Higher Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
-    },
-    {
-      "name": "Haward Play",
-      "location": "572 Statan NY, 12483",
-      "type": "Play Group School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
-    },
-    {
-      "name": "Campare Handeson",
-      "location": "Kasai Pantan NY, 12483",
-      "type": "Lower Secondary School",
-      "logoText":
-          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-    },
-  ];
+  // final List<Map> schoolLists = [
+  //   {
+  //     "name": "Edgewick Scchol",
+  //     "location": "572 Statan NY, 12483",
+  //     "type": "Higher Secondary School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+  //   },
+  //   {
+  //     "name": "Xaviers International",
+  //     "location": "234 Road Kathmandu, Nepal",
+  //     "type": "Higher Secondary School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+  //   },
+  //   {
+  //     "name": "Kinder Garden",
+  //     "location": "572 Statan NY, 12483",
+  //     "type": "Play Group School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+  //   },
+  //   {
+  //     "name": "WilingTon Cambridge",
+  //     "location": "Kasai Pantan NY, 12483",
+  //     "type": "Lower Secondary School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+  //   },
+  //   {
+  //     "name": "Fredik Panlon",
+  //     "location": "572 Statan NY, 12483",
+  //     "type": "Higher Secondary School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+  //   },
+  //   {
+  //     "name": "Whitehouse International",
+  //     "location": "234 Road Kathmandu, Nepal",
+  //     "type": "Higher Secondary School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+  //   },
+  //   {
+  //     "name": "Haward Play",
+  //     "location": "572 Statan NY, 12483",
+  //     "type": "Play Group School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+  //   },
+  //   {
+  //     "name": "Campare Handeson",
+  //     "location": "Kasai Pantan NY, 12483",
+  //     "type": "Lower Secondary School",
+  //     "logoText":
+  //         "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+  //   },
+  // ];
+
+  List employees;
+
+  getMethod() async {
+    String url = "https://phuidatabase.000webhostapp.com/getEmployee.php";
+    var res = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var body = json.decode(res.body);
+    return body;
+  }
 
   Text subheading(String title) {
     return Text(
@@ -132,11 +144,33 @@ class _AdminPageState extends State<AdminPage> {
                       padding: EdgeInsets.only(top: 0),
                       height: MediaQuery.of(context).size.height,
                       width: double.infinity,
-                      child: ListView.builder(
-                          itemCount: schoolLists.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return buildList(context, index);
-                          }),
+                      child: FutureBuilder(
+                        future: getMethod(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (employees != null) {
+                            return ListView.builder(
+                              itemCount: employees.length,
+                              itemBuilder: (context, index) {
+                                return buildList(context, index, employees);
+                              },
+                            );
+                          }
+                          employees = snapshot.data;
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: employees.length,
+                            itemBuilder: (context, index) {
+                              return buildList(context, index, employees);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -187,12 +221,6 @@ class _AdminPageState extends State<AdminPage> {
                           MaterialPageRoute(
                               builder: (context) => HomePage(id: widget.id)),
                         );
-                      } else if (index == 1) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProjectPage(id: widget.id)),
-                        );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
@@ -206,6 +234,12 @@ class _AdminPageState extends State<AdminPage> {
                           MaterialPageRoute(
                               builder: (context) => ProfilePage(id: widget.id)),
                         );
+                      } else if (index == 4) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminPage(id: widget.id)),
+                        );
                       }
                     }),
               ),
@@ -216,7 +250,7 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  Widget buildList(BuildContext context, int index) {
+  Widget buildList(BuildContext context, int index, List employees) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
@@ -233,20 +267,20 @@ class _AdminPageState extends State<AdminPage> {
             width: 50,
             height: 50,
             margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(width: 3, color: secondary),
-              image: DecorationImage(
-                  image: NetworkImage(schoolLists[index]['logoText']),
-                  fit: BoxFit.fill),
-            ),
+            // decoration: BoxDecoration(
+            //   borderRadius: BorderRadius.circular(50),
+            //   border: Border.all(width: 3, color: secondary),
+            //   image: DecorationImage(
+            //       //image: NetworkImage(schoolLists[index]['logoText']),
+            //       fit: BoxFit.fill),
+            // ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  schoolLists[index]['name'],
+                  "userName:  " + employees[index]['userName'],
                   style: TextStyle(
                       color: primary,
                       fontWeight: FontWeight.bold,
@@ -265,7 +299,7 @@ class _AdminPageState extends State<AdminPage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(schoolLists[index]['location'],
+                    Text("role:  " + employees[index]['role'],
                         style: TextStyle(
                             color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
@@ -276,17 +310,20 @@ class _AdminPageState extends State<AdminPage> {
                 Row(
                   children: <Widget>[
                     Icon(
-                      Icons.school,
+                      Icons.location_on,
                       color: secondary,
                       size: 20,
                     ),
                     SizedBox(
                       width: 5,
                     ),
-                    Text(schoolLists[index]['type'],
+                    Text("Salary:  " + employees[index]['Salary'],
                         style: TextStyle(
                             color: primary, fontSize: 13, letterSpacing: .3)),
                   ],
+                ),
+                SizedBox(
+                  height: 6,
                 ),
               ],
             ),
