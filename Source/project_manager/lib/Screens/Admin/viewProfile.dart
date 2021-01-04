@@ -1,55 +1,33 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
-import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:project_manager/Screens/Admin/admin.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
+import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
-import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/Screens/Admin/admin.dart';
+import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+//import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:http/http.dart' as http;
 
-class ProfilePage extends StatefulWidget {
+class ViewProfilePage extends StatefulWidget {
   final int id;
-  ProfilePage({Key key, this.id}) : super(key: key);
+  final dynamic info;
+  ViewProfilePage({Key key, this.id, this.info}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ViewProfilePageState createState() => _ViewProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  String tempEmail = "";
-  String tempPhone = "";
-  String tempAddress = "";
+class _ViewProfilePageState extends State<ViewProfilePage> {
+  int selectedIndex = 4;
   bool edit = false;
-  var info;
-  int selectedIndex = 3;
-
-  getProfileMethod() async {
-    String url = "https://phuidatabase.000webhostapp.com/getUserData.php";
-    int queryID = widget.id;
-    var requestUrl = url + '?id=' + queryID.toString();
-    var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
-    var body = json.decode(res.body);
-    var info = body[0];
-    return info;
-  }
-
-  postMethod(String email, String phone, String address) async {
-    String url = "https://phuidatabase.000webhostapp.com/editProfile.php";
-    Map<String, String> profileInfo = {
-      'ID': widget.id.toString(),
-      'Email': email,
-      'PhoneNumber': phone,
-      'Address': address
-    };
-    String queryString = Uri(queryParameters: profileInfo).query;
-    var requestUrl = url + '?' + queryString;
-    http.Response response = await http.get(requestUrl);
-    var data = response.body;
-    return data;
-  }
+  String tempUserName = "";
+  String tempPassWord = "";
+  String tempRole = "";
+  String tempSalary = "";
 
   @override
   Widget build(BuildContext context) {
@@ -62,18 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.only(top: 0),
                     height: MediaQuery.of(context).size.height,
                     width: double.infinity,
-                    child: FutureBuilder(
-                        future: getProfileMethod(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (info != null) return buildProfile(info);
-                          info = snapshot.data;
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return buildProfile(info);
-                        }))),
+                    child: buildProfile(widget.info))),
           ),
           Container(
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -128,6 +95,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         context,
                         MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
                       );
+                    } else if (index == 3) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
+                      );
                     } else if (index == 4) {
                       Navigator.push(
                         context,
@@ -140,6 +112,49 @@ class _ProfilePageState extends State<ProfilePage> {
         ]),
       ),
     );
+  }
+
+  deleteUser(String id) async {
+    String url = "https://phuidatabase.000webhostapp.com/deleteEmployee.php";
+    var requestUrl = url + '?' + "ID=" + id;
+    http.Response response = await http.get(requestUrl);
+    print(requestUrl);
+    var data = response.body;
+    print(data);
+    return data;
+  }
+
+  updateEmployee(
+      String nationalID, String userName, String password, String role, String salary) async {
+    String url = "https://phuidatabase.000webhostapp.com/updateEmploy.php";
+    Map<String, String> profileInfo = {
+      'ID': nationalID,
+      'userName': userName,
+      'password': password,
+      'role': role,
+      'Salary': salary
+    };
+    String queryString = Uri(queryParameters: profileInfo).query;
+    var requestUrl = url + '?' + queryString;
+    http.Response response = await http.get(requestUrl);
+    var data = response.body;
+    return data;
+  }
+
+  postMethod(String email, String phone, String address) async {
+    String url = "https://phuidatabase.000webhostapp.com/editProfile.php";
+    Map<String, String> profileInfo = {
+      'ID': widget.id.toString(),
+      'Email': email,
+      'PhoneNumber': phone,
+      'Address': address
+    };
+    String queryString = Uri(queryParameters: profileInfo).query;
+    var requestUrl = url + '?' + queryString;
+
+    http.Response response = await http.get(requestUrl);
+    var data = response.body;
+    return data;
   }
 
   Container profilePicture(dynamic info) {
@@ -237,60 +252,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         visible: !edit,
                         child: Column(children: <Widget>[
                           ListTile(
-                            title: Text(info['Email'], style: TextStyle(fontSize: 18)),
-                            leading: Icon(Icons.email),
+                            title: Text(info["userName"], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.account_circle_rounded),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["PhoneNumber"], style: TextStyle(fontSize: 20)),
-                            leading: Icon(Icons.phone),
+                            title: Text(info["password"], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.lock),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['Address'], style: TextStyle(fontSize: 18)),
-                            leading: Icon(Icons.location_on_rounded),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(info['Salary'], style: TextStyle(fontSize: 20)),
-                            leading: Icon(Icons.attach_money),
-                          ),
-                        ]),
-                      ),
-                      Visibility(
-                        visible: edit,
-                        child: Column(children: <Widget>[
-                          ListTile(
-                            title: TextFormField(
-                              initialValue: info['Email'],
-                              style: TextStyle(fontSize: 18),
-                              onChanged: (text) {
-                                tempEmail = text;
-                              },
-                            ),
-                            leading: Icon(Icons.email),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: TextFormField(
-                              initialValue: info['PhoneNumber'],
-                              onChanged: (text) {
-                                tempPhone = text;
-                              },
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            leading: Icon(Icons.phone),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: TextFormField(
-                              initialValue: info['Address'],
-                              onChanged: (text) {
-                                tempAddress = text;
-                              },
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            leading: Icon(Icons.location_on_rounded),
+                            title: Text(info["role"], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.assignment_ind_rounded),
                           ),
                           Divider(),
                           ListTile(
@@ -298,17 +271,80 @@ class _ProfilePageState extends State<ProfilePage> {
                             leading: Icon(Icons.attach_money),
                           ),
                           RoundedButton(
-                              text: "SAVE",
+                              text: "DELETE",
                               press: () {
-                                if (tempEmail == "") tempEmail = info['Email'];
-                                if (tempPhone == "") tempPhone = info['PhoneNumber'];
-                                if (tempAddress == "") tempAddress = info['Address'];
                                 showLoadingDialog();
-                                postMethod(tempEmail, tempPhone, tempAddress);
+                                deleteUser(info['NationalID']);
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
-                                    return ProfilePage(id: widget.id);
+                                    return AdminPage(id: widget.id);
+                                  },
+                                ));
+                              })
+                        ]),
+                      ),
+                      Visibility(
+                        visible: edit,
+                        child: Column(children: <Widget>[
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['userName'],
+                              style: TextStyle(fontSize: 18),
+                              onChanged: (text) {
+                                tempUserName = text;
+                              },
+                            ),
+                            leading: Icon(Icons.account_circle_rounded),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['password'],
+                              onChanged: (text) {
+                                tempPassWord = text;
+                              },
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            leading: Icon(Icons.lock),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['role'],
+                              onChanged: (text) {
+                                tempRole = text;
+                              },
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            leading: Icon(Icons.assignment_ind_rounded),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['Salary'],
+                              onChanged: (text) {
+                                tempSalary = text;
+                              },
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            leading: Icon(Icons.attach_money),
+                          ),
+                          RoundedButton(
+                              text: "SAVE",
+                              press: () {
+                                if (tempUserName == "") tempUserName = info['userName'];
+                                if (tempPassWord == "") tempPassWord = info['password'];
+                                if (tempRole == "") tempRole = info['role'];
+                                if (tempSalary == "") tempSalary = info['Salary'];
+
+                                showLoadingDialog();
+                                updateEmployee(info['NationalID'], tempUserName, tempPassWord,
+                                    tempRole, tempSalary);
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    hideLoadingDialog();
+                                    return AdminPage(id: widget.id);
                                   },
                                 ));
                               })
