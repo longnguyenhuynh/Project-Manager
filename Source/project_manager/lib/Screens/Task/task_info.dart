@@ -11,24 +11,16 @@ class Priority {
   final Color color;
 }
 
-Map<String, Color> priority = {
-  'Low': kGreen,
-  'Med': kBlue,
-  'High': kDarkYellow,
-  'Critical': kRed
-};
-Map<Color, String> rev_priority = {
-  kGreen: 'Low',
-  kBlue: 'Med',
-  kDarkYellow: 'High',
-  kRed: 'Critical'
-};
+Map<String, int> priority = {'Low': 0, 'Med': 1, 'High': 2, 'Critical': 3};
+Map<int, String> rev_priority = {0: 'Low', 1: 'Med', 2: 'High', 3: 'Critical'};
 
 getData() async {
   var url = 'https://phuidatabase.000webhostapp.com/getManagerList.php';
   http.Response response = await http.get(url);
   return jsonDecode(response.body);
 }
+
+int _value = 1;
 
 List<Priority> _priority = <Priority>[
   const Priority('Low', kGreen),
@@ -37,31 +29,23 @@ List<Priority> _priority = <Priority>[
   const Priority('Critical', kRed),
 ];
 
-class CreateNewTaskPage extends StatefulWidget {
+class TaskInfo extends StatefulWidget {
+  var data;
+  TaskInfo({Key key, @required this.data}) : super(key: key);
   @override
-  _CreateNewTaskPageState createState() => _CreateNewTaskPageState();
+  _TaskInfo createState() => _TaskInfo(data: data);
 }
 
-class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
+class _TaskInfo extends State<TaskInfo> {
+  _TaskInfo({Key key, @required this.data});
+  var data;
   List _assignTo;
   int _value;
-  TextEditingController _taskName = TextEditingController();
-  TextEditingController _pID = TextEditingController();
-  TextEditingController _storyName = TextEditingController();
-  TextEditingController _epicName = TextEditingController();
-  TextEditingController _startTime = TextEditingController();
-  TextEditingController _endTime = TextEditingController();
-  TextEditingController _description = TextEditingController();
-  String get pid => _pID.text;
-  String get taskName => _taskName.text;
-  String get storyName => _storyName.text;
-  String get epicName => _epicName.text;
-  String get startTime => _startTime.text;
-  String get endTime => _endTime.text;
-  String get description => _description.text;
 
   @override
   Widget build(BuildContext context) {
+    _value = priority[data["Priority"]];
+    _assignTo = [data["ManagerID"]];
     double width = MediaQuery.of(context).size.width;
     var downwardIcon = Icon(
       Icons.keyboard_arrow_down,
@@ -73,7 +57,7 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Column(
+              child: Row(
                 children: <Widget>[
                   MyBackButton(),
                   SizedBox(
@@ -83,7 +67,7 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'New task',
+                        'TASK INFORMATION',
                         style: TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.w700),
                       ),
@@ -100,30 +84,28 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                          child: TextFormField(
-                        controller: _taskName,
-                        style: TextStyle(color: Colors.black87),
-                        decoration: InputDecoration(
-                            labelText: "Task Name",
-                            labelStyle: TextStyle(color: Colors.black45),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black)),
-                            border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey))),
-                      )),
-                      SizedBox(width: 20),
+                          flex: 4,
+                          child: Column(children: <Widget>[
+                            Text(data["TaskName"],
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 25.0)),
+                          ])),
                       Expanded(
-                        child: TextFormField(
-                          controller: _pID,
-                          style: TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                              labelText: "PID:",
-                              labelStyle: TextStyle(color: Colors.black45),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey))),
-                        ),
+                        flex: 4,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "PID: ",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              Text(
+                                data["PID"].toString(),
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 20.0),
+                              ),
+                            ]),
                       ),
                     ],
                   ),
@@ -131,30 +113,37 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                          child: TextFormField(
-                        controller: _epicName,
-                        style: TextStyle(color: Colors.black87),
-                        decoration: InputDecoration(
-                            labelText: "Epic Name",
-                            labelStyle: TextStyle(color: Colors.black45),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black)),
-                            border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey))),
-                      )),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Epic Name: ",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              Text(
+                                data["EpicName"],
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 20.0),
+                              ),
+                            ]),
+                      ),
                       SizedBox(width: 20),
                       Expanded(
-                        child: TextFormField(
-                          controller: _storyName,
-                          style: TextStyle(color: Colors.black87),
-                          decoration: InputDecoration(
-                              labelText: "Story Name",
-                              labelStyle: TextStyle(color: Colors.black45),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey))),
-                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "StoryName: ",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              Text(
+                                data["StoryName"],
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 20.0),
+                              ),
+                            ]),
                       ),
                     ],
                   ),
@@ -163,7 +152,7 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                     children: <Widget>[
                       Expanded(
                         child: TextFormField(
-                          controller: _startTime,
+                          initialValue: data["StartTime"],
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
                               labelText: "Start Time",
@@ -172,12 +161,15 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                                   borderSide: BorderSide(color: Colors.black)),
                               border: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey))),
+                          onChanged: (text) {
+                            data["StartTime"] = text;
+                          },
                         ),
                       ),
                       SizedBox(width: 20),
                       Expanded(
                         child: TextFormField(
-                          controller: _endTime,
+                          initialValue: data["EndTime"],
                           style: TextStyle(color: Colors.black87),
                           decoration: InputDecoration(
                               labelText: "End Time",
@@ -186,13 +178,16 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                                   borderSide: BorderSide(color: Colors.black)),
                               border: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey))),
+                          onChanged: (text) {
+                            data["EndTime"] = text;
+                          },
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 20),
                   TextFormField(
-                    controller: _description,
+                    initialValue: data["Description"],
                     style: TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
                         labelStyle: TextStyle(color: Colors.black45),
@@ -200,6 +195,9 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                             borderSide: BorderSide(color: Colors.black)),
                         border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey))),
+                    onChanged: (text) {
+                      data["Description"] = text;
+                    },
                   ),
                   SizedBox(height: 20),
                   FutureBuilder(
@@ -244,7 +242,7 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                           onSaved: (value) {
                             if (value == null) return;
                             setState(() {
-                              _assignTo = value;
+                              data["ManagerID"] = value[0];
                             });
                           },
                         );
@@ -281,37 +279,62 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
                           selectedColor: _priority[index].color,
                           onSelected: (bool selected) {
                             setState(() {
-                              _value = selected ? index : 0;
+                              data["Priority"] =
+                                  rev_priority[selected ? index : 0];
                             });
                           },
                         );
                       },
                     ).toList(),
                   ),
-                  FlatButton(
-                    onPressed: () {
-                      print("Pressed");
-                      insertMethod(_assignTo[0]);
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: width * 0.8,
-                      child: Text(
-                        'Create Task',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18),
-                      ),
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                      decoration: BoxDecoration(
-                        color: kBlue,
-                        borderRadius: BorderRadius.circular(30),
+                  Row(children: [
+                    FlatButton(
+                      onPressed: () {
+                        removeMethod();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: width * 0.3,
+                        child: Text(
+                          'Remove Task',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18),
+                        ),
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                        decoration: BoxDecoration(
+                          color: kRed,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                       ),
                     ),
-                  ),
+                    FlatButton(
+                      onPressed: () {
+                        updateMethod();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: width * 0.3,
+                        child: Text(
+                          'Update Task',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18),
+                        ),
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                        decoration: BoxDecoration(
+                          color: kBlue,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ]),
                 ],
               ),
             ),
@@ -321,22 +344,21 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
     );
   }
 
-  insertMethod(x) async {
-    print("inserting");
-    var data = {
-      'PID': pid,
-      'taskName': taskName,
-      'epicName': epicName,
-      'storyName': storyName,
-      'Description': description,
-      '_Status': "Not Start",
-      'Priority': _priority[_value].name,
-      'StartTime': startTime,
-      'ManagerID': x,
-      'EndTime': endTime,
-    };
+  removeMethod() async {
+    data["PID"] = data["PID"].toString();
+    data["ManagerID"] = data["ManagerID"].toString();
     print(data);
-    String url = "https://phuidatabase.000webhostapp.com/addTask.php";
+    String url = "https://phuidatabase.000webhostapp.com/removeTask.php";
+    var res = await http.post(url, body: data);
+    var resBody = json.decode(res.body);
+    print(resBody);
+  }
+
+  updateMethod() async {
+    data["PID"] = data["PID"].toString();
+    data["ManagerID"] = data["ManagerID"].toString();
+    print(data);
+    String url = "https://phuidatabase.000webhostapp.com/editTask.php";
     var res = await http.post(url, body: data);
     var resBody = json.decode(res.body);
     print(resBody);
