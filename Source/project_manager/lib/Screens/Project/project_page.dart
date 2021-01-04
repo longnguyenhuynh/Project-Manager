@@ -7,6 +7,7 @@ import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_manager/Screens/Admin/admin.dart';
+import 'package:project_manager/Screens/Project/detail_project.dart';
 
 class ProjectPage extends StatefulWidget {
   final int id;
@@ -55,32 +56,6 @@ class _ProjectPageState extends State<ProjectPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 20.0),
-                      child: Material(
-                        elevation: 5.0,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        child: TextField(
-                          // controller: TextEditingController(text: locations[0]),
-                          cursorColor: Theme.of(context).primaryColor,
-                          style: dropdownMenuItem,
-                          decoration: InputDecoration(
-                              hintText: "Search Project",
-                              hintStyle: TextStyle(
-                                  color: Colors.black38, fontSize: 16),
-                              prefixIcon: Material(
-                                elevation: 0.0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                child: Icon(Icons.search),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 13)),
-                        ),
-                      ),
-                    ),
                     Container(
                       padding: EdgeInsets.only(top: 0),
                       height: MediaQuery.of(context).size.height,
@@ -194,56 +169,67 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   Widget buildList(BuildContext context, int index, List projectList) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Colors.white,
-      ),
-      width: double.infinity,
-      height: 110,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return new GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailProjectPage(
+                    id: widget.id,
+                  )),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: Colors.grey.shade300,
+        ),
+        width: double.infinity,
+        height: 110,
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Name: " + projectList[index]['name'],
+                    style: TextStyle(
+                        color: primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  Text(
+                    "Deadline: " + projectList[index]['endTime'],
+                    style: TextStyle(
+                        color: primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ]),
+            Row(
               children: <Widget>[
-                Text(
-                  "Name: " + projectList[index]['name'],
-                  style: TextStyle(
-                      color: primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                Icon(
+                  projectList[index]['status'] == 'Not Started'
+                      ? Icons.pause_circle_filled_outlined
+                      : projectList[index]['status'] == 'In Progress'
+                          ? Icons.play_circle_fill_outlined
+                          : Icons.stop_circle_outlined,
+                  color: secondary,
+                  size: 20,
                 ),
-                Text(
-                  "Deadline: " + projectList[index]['endTime'],
-                  style: TextStyle(
-                      color: primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                SizedBox(
+                  width: 5,
                 ),
-              ]),
-          Row(
-            children: <Widget>[
-              Icon(
-                projectList[index]['status'] == 'Not Started'
-                    ? Icons.pause_circle_filled_outlined
-                    : projectList[index]['status'] == 'In Progress'
-                        ? Icons.play_circle_fill_outlined
-                        : Icons.stop_circle_outlined,
-                color: secondary,
-                size: 20,
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Text(projectList[index]['status'],
-                  style: TextStyle(
-                      color: primary, fontSize: 16, letterSpacing: .3)),
-            ],
-          ),
-        ],
+                Text(projectList[index]['status'],
+                    style: TextStyle(
+                        color: primary, fontSize: 16, letterSpacing: .3)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
