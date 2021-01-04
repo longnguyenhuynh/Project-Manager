@@ -147,22 +147,22 @@ class _ProjectPageState extends State<ProjectPage> {
                       if (index == 0) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => CalendarPage()),
+                          MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ProfilePage()),
+                          MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
                         );
                       } else if (index == 4) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AdminPage()),
+                          MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
                         );
                       }
                     }),
