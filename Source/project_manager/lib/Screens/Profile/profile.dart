@@ -36,22 +36,21 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: Column(children: <Widget>[
           Expanded(
-              child: SingleChildScrollView(
-                  child: Container(
-                      padding: EdgeInsets.only(top: 0),
-                      height: MediaQuery.of(context).size.height,
-                      width: double.infinity,
-                      child: FutureBuilder(
-                          future: getMethod(),
-                          builder: (BuildContext context, AsyncSnapshot snapshot) {
-                            var info = snapshot.data;
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            return buildProfile(info);
-                          })))),
+              child: Container(
+                  padding: EdgeInsets.only(top: 0),
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  child: FutureBuilder(
+                      future: getMethod(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        var info = snapshot.data;
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return buildProfile(info);
+                      }))),
           Container(
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
@@ -119,101 +118,115 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Container profilePicture(dynamic info) {
+    if (info['ProfilePhotoLink'] == "")
+      return Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            image:
+                DecorationImage(image: AssetImage('assets/images/avatar.png'), fit: BoxFit.cover)),
+        margin: EdgeInsets.only(left: 16.0),
+      );
+    else {
+      return Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            image:
+                DecorationImage(image: NetworkImage(info['ProfilePhotoLink']), fit: BoxFit.cover)),
+        margin: EdgeInsets.only(left: 16.0),
+      );
+    }
+  }
+
   Widget buildProfile(dynamic info) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 30.0),
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(16.0),
-                        margin: EdgeInsets.only(top: 16.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 96.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    info['LastName'] +
-                                        ' ' +
-                                        info['MiddleName'] +
-                                        ' ' +
-                                        info['FirstName'],
-                                    style: Theme.of(context).textTheme.title,
-                                  ),
-                                  ListTile(
-                                    contentPadding: EdgeInsets.all(0),
-                                    title: Text(info['role']),
-                                  ),
-                                ],
-                              ),
+      body: Stack(
+        children: <Widget>[
+          Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 30.0),
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      margin: EdgeInsets.only(top: 16.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 96.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  info['LastName'] +
+                                      ' ' +
+                                      info['MiddleName'] +
+                                      ' ' +
+                                      info['FirstName'],
+                                  style: Theme.of(context).textTheme.title,
+                                ),
+                                ListTile(
+                                  contentPadding: EdgeInsets.all(0),
+                                  title: Text(info['role']),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 10.0),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 10.0),
+                        ],
                       ),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            image: DecorationImage(
-                                image: NetworkImage(info['ProfilePhotoLink']), fit: BoxFit.cover)),
-                        margin: EdgeInsets.only(left: 16.0),
+                    ),
+                    profilePicture(info),
+                  ],
+                ),
+                SizedBox(height: 20.0),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text("User information"),
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Email"),
+                        subtitle: Text(info['Email']),
+                        leading: Icon(Icons.email),
+                      ),
+                      ListTile(
+                        title: Text("Phone"),
+                        subtitle: Text(info["PhoneNumber"]),
+                        leading: Icon(Icons.phone),
+                      ),
+                      ListTile(
+                        title: Text("Address"),
+                        subtitle: Text(info['Address']),
+                        leading: Icon(Icons.location_on_rounded),
+                      ),
+                      ListTile(
+                        title: Text("Salary"),
+                        subtitle: Text(info['Salary']),
+                        leading: Icon(Icons.attach_money),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20.0),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text("User information"),
-                        ),
-                        Divider(),
-                        ListTile(
-                          title: Text("Email"),
-                          subtitle: Text(info['Email']),
-                          leading: Icon(Icons.email),
-                        ),
-                        ListTile(
-                          title: Text("Phone"),
-                          subtitle: Text(info["PhoneNumber"]),
-                          leading: Icon(Icons.phone),
-                        ),
-                        ListTile(
-                          title: Text("Address"),
-                          subtitle: Text(info['Address']),
-                          leading: Icon(Icons.location_on_rounded),
-                        ),
-                        ListTile(
-                          title: Text("Salary"),
-                          subtitle: Text(info['Salary']),
-                          leading: Icon(Icons.attach_money),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
