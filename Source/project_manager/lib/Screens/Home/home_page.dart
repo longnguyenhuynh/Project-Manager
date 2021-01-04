@@ -22,7 +22,10 @@ class _HomePageState extends State<HomePage> {
     return Text(
       title,
       style: TextStyle(
-          color: kDarkBlue, fontSize: 20.0, fontWeight: FontWeight.w700, letterSpacing: 1.2),
+          color: kDarkBlue,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.2),
     );
   }
 
@@ -37,7 +40,8 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -58,7 +62,8 @@ class _HomePageState extends State<HomePage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => CreateNewTaskPage(),
+                                          builder: (context) =>
+                                              CreateNewTaskPage(),
                                         ),
                                       );
                                     },
@@ -80,42 +85,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(height: 10.0),
                           // Database
-                          Row(
-                            children: <Widget>[
-                              ActiveProjectsCard(
-                                cardColor: kDarkYellow,
-                                title: 'Medical App',
-                                subtitle: '9 hours left',
-                              ),
-                              SizedBox(width: 20.0),
-                              ActiveProjectsCard(
-                                cardColor: kGreen,
-                                title: 'Making History Notes',
-                                subtitle: '20 hours left',
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              ActiveProjectsCard(
-                                cardColor: kRed,
-                                title: 'Sports App',
-                                subtitle: '5 hours left',
-                              ),
-                              SizedBox(width: 20.0),
-                              ActiveProjectsCard(
-                                cardColor: kBlue,
-                                title: 'Online Flutter Course',
-                                subtitle: '23 hours left',
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
@@ -132,7 +108,8 @@ class _HomePageState extends State<HomePage> {
                     offset: Offset(0, 15))
               ]),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GNav(
                     gap: 8,
                     color: Colors.grey[800],
@@ -164,22 +141,27 @@ class _HomePageState extends State<HomePage> {
                       if (index == 1) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ProjectPage(id: widget.id)),
+                          MaterialPageRoute(
+                              builder: (context) => ProjectPage(id: widget.id)),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CalendarPage(id: widget.id)),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(id: widget.id)),
                         );
                       } else if (index == 4) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
+                          MaterialPageRoute(
+                              builder: (context) => AdminPage(id: widget.id)),
                         );
                       }
                     }),
