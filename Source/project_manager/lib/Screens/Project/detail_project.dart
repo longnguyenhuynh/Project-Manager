@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:load/load.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
+import 'package:project_manager/Screens/Profile/profile.dart';
+import 'package:project_manager/Screens/Project/manager_info.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/components/rounded_button.dart';
@@ -20,26 +22,27 @@ class DetailProjectPage extends StatefulWidget {
 }
 
 class _DetailProjectPageState extends State<DetailProjectPage> {
-  String tempEmail = "";
-  String tempPhone = "";
-  String tempAddress = "";
+  String tempDes = "";
+  String tempTarget = "";
+  String tempStatus = "";
+  String tempExpense = "";
+  String tempAccess = "";
   bool edit = false;
   var info;
-  int selectedIndex = 3;
+  int selectedIndex = 1;
 
   getMethod() async {
-    String url =
-        "https://phuidatabase.000webhostapp.com/getDetailProjectData.php";
-    int queryID = widget.id;
-    var requestUrl = url + '?id=' + queryID.toString();
-    var res = await http.get(Uri.encodeFull(requestUrl),
-        headers: {"Accept": "application/json"});
+    String url = "https://phuidatabase.000webhostapp.com/getDetailProjectData.php";
+    int queryID = widget.projectID;
+    var requestUrl = url + '?ID=' + queryID.toString();
+    var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     var info = body[0];
     return info;
   }
 
-  postMethod(String email, String phone, String address) async {
+  editProject(String email, String phone, String address) async {
+    //SỬA THÔNG TIN CHỖ NÀY
     String url = "https://phuidatabase.000webhostapp.com/editProject.php";
     Map<String, String> profileInfo = {
       'ID': widget.id.toString(),
@@ -67,12 +70,10 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                     width: double.infinity,
                     child: FutureBuilder(
                         future: getMethod(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
                           if (info != null) return buildProfile(info);
                           info = snapshot.data;
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
@@ -89,8 +90,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                   offset: Offset(0, 15))
             ]),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               child: GNav(
                   gap: 8,
                   color: Colors.grey[800],
@@ -122,26 +122,22 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                     if (index == 0) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage(id: widget.id)),
-                      );
-                    } else if (index == 1) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProjectPage(id: widget.id)),
+                        MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
                       );
                     } else if (index == 2) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => CalendarPage(id: widget.id)),
+                        MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
+                      );
+                    } else if (index == 3) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
                       );
                     } else if (index == 4) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminPage(id: widget.id)),
+                        MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
                       );
                     }
                   }),
@@ -152,33 +148,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
     );
   }
 
-  Container profilePicture(dynamic info) {
-    if (info['ProfilePhotoLink'] == "")
-      return Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            image: DecorationImage(
-                image: AssetImage('assets/images/avatar.png'),
-                fit: BoxFit.cover)),
-        margin: EdgeInsets.only(left: 16.0),
-      );
-    else {
-      return Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            image: DecorationImage(
-                image: NetworkImage(info['ProfilePhotoLink']),
-                fit: BoxFit.cover)),
-        margin: EdgeInsets.only(left: 16.0),
-      );
-    }
-  }
-
   Widget buildProfile(dynamic info) {
+    print(info);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -191,8 +162,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                     Container(
                       padding: EdgeInsets.all(0.0),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5.0)),
+                          color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -203,16 +173,11 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               children: <Widget>[
                                 SizedBox(height: 10.0),
                                 Text(
-                                  info['LastName'] +
-                                      ' ' +
-                                      info['MiddleName'] +
-                                      ' ' +
-                                      info['FirstName'],
+                                  info['name'],
                                   style: TextStyle(fontSize: 25, color: kBlue),
                                 ),
                                 Divider(),
-                                Text(info['role'],
-                                    style: TextStyle(fontSize: 20)),
+                                Text(info['status'], style: TextStyle(fontSize: 20)),
                               ],
                             ),
                           ),
@@ -220,7 +185,15 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                         ],
                       ),
                     ),
-                    profilePicture(info),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/project.png'), fit: BoxFit.cover)),
+                      margin: EdgeInsets.only(left: 16.0),
+                    )
                   ],
                 ),
                 Divider(),
@@ -231,12 +204,10 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                       SizedBox(height: 5.0),
                       Row(children: <Widget>[
                         SizedBox(width: 15.0),
-                        Text("USER INFORMATION",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: kBlue)),
-                        SizedBox(width: 90.0),
+                        Text("PROJECT INFORMATION",
+                            style:
+                                TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBlue)),
+                        SizedBox(width: 30.0),
                         IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
@@ -253,28 +224,47 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                         visible: !edit,
                         child: Column(children: <Widget>[
                           ListTile(
-                            title: Text(info['Email'],
-                                style: TextStyle(fontSize: 18)),
-                            leading: Icon(Icons.email),
+                            title: Text(info['des'], style: TextStyle(fontSize: 18)),
+                            leading: Icon(Icons.check_box),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["PhoneNumber"],
-                                style: TextStyle(fontSize: 20)),
-                            leading: Icon(Icons.phone),
+                            title: Text(info["target"], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.control_camera_outlined),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['Address'],
-                                style: TextStyle(fontSize: 18)),
-                            leading: Icon(Icons.location_on_rounded),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(info['Salary'],
-                                style: TextStyle(fontSize: 20)),
+                            title: Text(info['expense'], style: TextStyle(fontSize: 18)),
                             leading: Icon(Icons.attach_money),
                           ),
+                          Divider(),
+                          ListTile(
+                            title: Text(info['access'], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.lock),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title:
+                                Text("From: " + info['startTime'], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.calendar_today_rounded),
+                          ),
+                          ListTile(
+                            title: Text("To: " + info['endTime'], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.calendar_today_rounded),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ManagerPage(id: int.parse(info['manager']))));
+                            },
+                            child: ListTile(
+                              title: Text("Manager", style: TextStyle(fontSize: 20)),
+                              leading: Icon(Icons.account_circle),
+                            ),
+                          )
                         ]),
                       ),
                       Visibility(
@@ -282,56 +272,61 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                         child: Column(children: <Widget>[
                           ListTile(
                             title: TextFormField(
-                              initialValue: info['Email'],
+                              initialValue: info['des'],
                               style: TextStyle(fontSize: 18),
                               onChanged: (text) {
-                                tempEmail = text;
+                                tempDes = text;
                               },
                             ),
-                            leading: Icon(Icons.email),
+                            leading: Icon(Icons.check_box),
                           ),
                           Divider(),
                           ListTile(
                             title: TextFormField(
-                              initialValue: info['PhoneNumber'],
+                              initialValue: info['target'],
+                              style: TextStyle(fontSize: 18),
                               onChanged: (text) {
-                                tempPhone = text;
+                                tempDes = text;
                               },
-                              style: TextStyle(fontSize: 20),
                             ),
-                            leading: Icon(Icons.phone),
+                            leading: Icon(Icons.control_camera_outlined),
                           ),
                           Divider(),
                           ListTile(
                             title: TextFormField(
-                              initialValue: info['Address'],
-                              onChanged: (text) {
-                                tempAddress = text;
-                              },
+                              initialValue: info['expense'],
                               style: TextStyle(fontSize: 18),
+                              onChanged: (text) {
+                                tempDes = text;
+                              },
                             ),
-                            leading: Icon(Icons.location_on_rounded),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(info['Salary'],
-                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.attach_money),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['access'],
+                              style: TextStyle(fontSize: 18),
+                              onChanged: (text) {
+                                tempDes = text;
+                              },
+                            ),
+                            leading: Icon(Icons.lock),
                           ),
                           RoundedButton(
                               text: "SAVE",
                               press: () {
-                                if (tempEmail == "") tempEmail = info['Email'];
-                                if (tempPhone == "")
-                                  tempPhone = info['PhoneNumber'];
-                                if (tempAddress == "")
-                                  tempAddress = info['Address'];
+                                if (tempDes == "") tempDes = info['des'];
+                                if (tempTarget == "") tempTarget = info['target'];
+                                if (tempStatus == "") tempExpense = info['status'];
+                                if (tempExpense == "") tempExpense = info['expense'];
+                                if (tempAccess == "") tempAccess = info['access'];
                                 showLoadingDialog();
-                                postMethod(tempEmail, tempPhone, tempAddress);
+                                //editProject(tempEmail, tempPhone, tempAddress); // GỌI LÊN SERVER
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
-                                    return DetailProjectPage(id: widget.id);
+                                    return ProfilePage(id: widget.id);
                                   },
                                 ));
                               })

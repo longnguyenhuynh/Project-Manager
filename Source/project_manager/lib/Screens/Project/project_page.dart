@@ -19,8 +19,7 @@ class ProjectPage extends StatefulWidget {
 
 class _ProjectPageState extends State<ProjectPage> {
   int selectedIndex = 1;
-  final TextStyle dropdownMenuItem =
-      TextStyle(color: Colors.black, fontSize: 18);
+  final TextStyle dropdownMenuItem = TextStyle(color: Colors.black, fontSize: 18);
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
@@ -29,8 +28,7 @@ class _ProjectPageState extends State<ProjectPage> {
 
   getMethod() async {
     String url = "https://phuidatabase.000webhostapp.com/getProjectData.php";
-    var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     return body;
   }
@@ -39,10 +37,7 @@ class _ProjectPageState extends State<ProjectPage> {
     return Text(
       title,
       style: TextStyle(
-          color: kDarkBlue,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2),
+          color: kDarkBlue, fontSize: 20.0, fontWeight: FontWeight.w700, letterSpacing: 1.2),
     );
   }
 
@@ -62,8 +57,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       width: double.infinity,
                       child: FutureBuilder(
                         future: getMethod(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
                           if (projectList != null) {
                             return ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
@@ -74,8 +68,7 @@ class _ProjectPageState extends State<ProjectPage> {
                             );
                           }
                           projectList = snapshot.data;
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
@@ -103,8 +96,7 @@ class _ProjectPageState extends State<ProjectPage> {
                     offset: Offset(0, 15))
               ]),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GNav(
                     gap: 8,
                     color: Colors.grey[800],
@@ -136,27 +128,22 @@ class _ProjectPageState extends State<ProjectPage> {
                       if (index == 0) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => HomePage(id: widget.id)),
+                          MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CalendarPage(id: widget.id)),
+                          MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage(id: widget.id)),
+                          MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
                         );
                       } else if (index == 4) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AdminPage(id: widget.id)),
+                          MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
                         );
                       }
                     }),
@@ -174,8 +161,8 @@ class _ProjectPageState extends State<ProjectPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => DetailProjectPage(
-                  id: widget.id, projectID: projectList[index]['id'])),
+              builder: (context) =>
+                  DetailProjectPage(id: widget.id, projectID: int.parse(projectList[index]['id']))),
         );
       },
       child: Container(
@@ -190,24 +177,16 @@ class _ProjectPageState extends State<ProjectPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Name: " + projectList[index]['name'],
-                    style: TextStyle(
-                        color: primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                  Text(
-                    "Deadline: " + projectList[index]['endTime'],
-                    style: TextStyle(
-                        color: primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                ]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+              Text(
+                "Name: " + projectList[index]['name'],
+                style: TextStyle(color: primary, fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Text(
+                "Deadline: " + projectList[index]['endTime'],
+                style: TextStyle(color: primary, fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            ]),
             Row(
               children: <Widget>[
                 Icon(
@@ -216,15 +195,13 @@ class _ProjectPageState extends State<ProjectPage> {
                       : projectList[index]['status'] == 'In Progress'
                           ? Icons.play_circle_fill_outlined
                           : Icons.stop_circle_outlined,
-                  color: secondary,
                   size: 20,
                 ),
                 SizedBox(
                   width: 5,
                 ),
                 Text(projectList[index]['status'],
-                    style: TextStyle(
-                        color: primary, fontSize: 16, letterSpacing: .3)),
+                    style: TextStyle(color: primary, fontSize: 16, letterSpacing: .3)),
               ],
             ),
           ],
