@@ -175,8 +175,7 @@ class _ProjectPageState extends State<ProjectPage> {
           context,
           MaterialPageRoute(
               builder: (context) => DetailProjectPage(
-                    id: widget.id,
-                  )),
+                  id: widget.id, projectID: projectList[index]['id'])),
         );
       },
       child: Container(

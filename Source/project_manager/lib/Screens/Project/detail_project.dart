@@ -12,7 +12,8 @@ import 'package:http/http.dart' as http;
 
 class DetailProjectPage extends StatefulWidget {
   final int id;
-  DetailProjectPage({Key key, this.id}) : super(key: key);
+  final int projectID;
+  DetailProjectPage({Key key, this.id, this.projectID}) : super(key: key);
 
   @override
   _DetailProjectPageState createState() => _DetailProjectPageState();
@@ -330,7 +331,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
-                                    return ProfilePage(id: widget.id);
+                                    return DetailProjectPage(id: widget.id);
                                   },
                                 ));
                               })
