@@ -8,8 +8,10 @@ import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:http/http.dart' as http;
 
 class AdminPage extends StatefulWidget {
+  final int id;
+  AdminPage({Key key, this.id}) : super(key: key);
+
   @override
-  AdminPage({Key key}) : super(key: key);
   _AdminPageState createState() => _AdminPageState();
 }
 
@@ -20,74 +22,64 @@ class _AdminPageState extends State<AdminPage> {
 
   final primary = Color(0xff696b9e);
   final secondary = Color(0xfff29a94);
-  // final List<Map> schoolLists = [
-  //   {
-  //     "name": "Edgewick Scchol",
-  //     "location": "572 Statan NY, 12483",
-  //     "type": "Higher Secondary School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-  //   },
-  //   {
-  //     "name": "Xaviers International",
-  //     "location": "234 Road Kathmandu, Nepal",
-  //     "type": "Higher Secondary School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
-  //   },
-  //   {
-  //     "name": "Kinder Garden",
-  //     "location": "572 Statan NY, 12483",
-  //     "type": "Play Group School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
-  //   },
-  //   {
-  //     "name": "WilingTon Cambridge",
-  //     "location": "Kasai Pantan NY, 12483",
-  //     "type": "Lower Secondary School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-  //   },
-  //   {
-  //     "name": "Fredik Panlon",
-  //     "location": "572 Statan NY, 12483",
-  //     "type": "Higher Secondary School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
-  //   },
-  //   {
-  //     "name": "Whitehouse International",
-  //     "location": "234 Road Kathmandu, Nepal",
-  //     "type": "Higher Secondary School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
-  //   },
-  //   {
-  //     "name": "Haward Play",
-  //     "location": "572 Statan NY, 12483",
-  //     "type": "Play Group School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
-  //   },
-  //   {
-  //     "name": "Campare Handeson",
-  //     "location": "Kasai Pantan NY, 12483",
-  //     "type": "Lower Secondary School",
-  //     "logoText":
-  //         "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
-  //   },
-  // ];
-
-  final List<Map> schoolLists = await getEmployees();
-  Future<List<Map>> getEmployees() async {
-    var url = 'https://phuidatabase.000webhostapp.com/login.php';
-    http.Response response = await http.get(url);
-    var data = json.decode(response.body);
-    List<Map> realdata = List<Map>.from(data).map((x) => Map.fromJson(x)));
-
-  return realdata;
-  }
+  final List<Map> schoolLists = [
+    {
+      "name": "Edgewick Scchol",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Xaviers International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Kinder Garden",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "WilingTon Cambridge",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+    {
+      "name": "Fredik Panlon",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Whitehouse International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Haward Play",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "Campare Handeson",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+  ];
 
   Text subheading(String title) {
     return Text(
@@ -192,25 +184,27 @@ class _AdminPageState extends State<AdminPage> {
                       if (index == 0) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(
+                              builder: (context) => HomePage(id: widget.id)),
                         );
                       } else if (index == 1) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProjectPage()),
+                              builder: (context) => ProjectPage(id: widget.id)),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CalendarPage()),
+                              builder: (context) =>
+                                  CalendarPage(id: widget.id)),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                              builder: (context) => ProfilePage(id: widget.id)),
                         );
                       }
                     }),
