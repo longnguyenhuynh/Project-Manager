@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:load/load.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/my_text_field.dart';
 import 'package:project_manager/Screens/Admin/admin.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,6 +19,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String tempEmail = "";
+  String tempPhone = "";
+  String tempAddress = "";
+  bool edit = false;
+  var info;
   int selectedIndex = 3;
 
   getMethod() async {
@@ -30,27 +36,45 @@ class _ProfilePageState extends State<ProfilePage> {
     return info;
   }
 
+  postMethod(String email, String phone, String address) async {
+    String url = "https://phuidatabase.000webhostapp.com/editProfile.php";
+    Map<String, String> profileInfo = {
+      'ID': widget.id.toString(),
+      'Email': email,
+      'PhoneNumber': phone,
+      'Address': address
+    };
+    String queryString = Uri(queryParameters: profileInfo).query;
+    var requestUrl = url + '?' + queryString;
+    http.Response response = await http.get(requestUrl);
+    var data = response.body;
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(children: <Widget>[
           Expanded(
-              child: Container(
-                  padding: EdgeInsets.only(top: 0),
-                  height: MediaQuery.of(context).size.height,
-                  width: double.infinity,
-                  child: FutureBuilder(
-                      future: getMethod(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        var info = snapshot.data;
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        return buildProfile(info);
-                      }))),
+            child: SingleChildScrollView(
+                child: Container(
+                    padding: EdgeInsets.only(top: 0),
+                    height: MediaQuery.of(context).size.height,
+                    width: double.infinity,
+                    child: FutureBuilder(
+                        future: getMethod(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if (info != null) return buildProfile(info);
+                          info = snapshot.data;
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return buildProfile(info);
+                        }))),
+          ),
           Container(
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
@@ -121,8 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Container profilePicture(dynamic info) {
     if (info['ProfilePhotoLink'] == "")
       return Container(
-        height: 80,
-        width: 80,
+        height: 100,
+        width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             image:
@@ -131,8 +155,8 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     else {
       return Container(
-        height: 80,
-        width: 80,
+        height: 100,
+        width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             image:
@@ -144,40 +168,37 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildProfile(dynamic info) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
       body: Stack(
         children: <Widget>[
           Container(
             child: Column(
               children: <Widget>[
-                SizedBox(height: 30.0),
+                SizedBox(height: 25.0),
                 Stack(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(16.0),
-                      margin: EdgeInsets.only(top: 16.0),
+                      padding: EdgeInsets.all(0.0),
                       decoration: BoxDecoration(
                           color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(left: 96.0),
+                            margin: EdgeInsets.only(left: 130.0, right: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
+                                SizedBox(height: 10.0),
                                 Text(
                                   info['LastName'] +
                                       ' ' +
                                       info['MiddleName'] +
                                       ' ' +
                                       info['FirstName'],
-                                  style: Theme.of(context).textTheme.title,
+                                  style: TextStyle(fontSize: 25, color: kBlue),
                                 ),
-                                ListTile(
-                                  contentPadding: EdgeInsets.all(0),
-                                  title: Text(info['role']),
-                                ),
+                                Divider(),
+                                Text(info['role'], style: TextStyle(fontSize: 20)),
                               ],
                             ),
                           ),
@@ -188,37 +209,110 @@ class _ProfilePageState extends State<ProfilePage> {
                     profilePicture(info),
                   ],
                 ),
-                SizedBox(height: 20.0),
+                Divider(),
                 Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
+                  margin: EdgeInsets.only(left: 15.0, right: 20),
                   child: Column(
                     children: <Widget>[
-                      ListTile(
-                        title: Text("User information"),
-                      ),
+                      SizedBox(height: 5.0),
+                      Row(children: <Widget>[
+                        SizedBox(width: 15.0),
+                        Text("USER INFORMATION",
+                            style:
+                                TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBlue)),
+                        SizedBox(width: 90.0),
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            setState(() {
+                              edit = !edit;
+                            });
+                          },
+                        ),
+                        Text("Edit"),
+                      ]),
+                      SizedBox(height: 5.0),
                       Divider(),
-                      ListTile(
-                        title: Text("Email"),
-                        subtitle: Text(info['Email']),
-                        leading: Icon(Icons.email),
+                      Visibility(
+                        visible: !edit,
+                        child: Column(children: <Widget>[
+                          ListTile(
+                            title: Text(info['Email'], style: TextStyle(fontSize: 18)),
+                            leading: Icon(Icons.email),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: Text(info["PhoneNumber"], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.phone),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: Text(info['Address'], style: TextStyle(fontSize: 18)),
+                            leading: Icon(Icons.location_on_rounded),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: Text(info['Salary'], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.attach_money),
+                          ),
+                        ]),
                       ),
-                      ListTile(
-                        title: Text("Phone"),
-                        subtitle: Text(info["PhoneNumber"]),
-                        leading: Icon(Icons.phone),
-                      ),
-                      ListTile(
-                        title: Text("Address"),
-                        subtitle: Text(info['Address']),
-                        leading: Icon(Icons.location_on_rounded),
-                      ),
-                      ListTile(
-                        title: Text("Salary"),
-                        subtitle: Text(info['Salary']),
-                        leading: Icon(Icons.attach_money),
+                      Visibility(
+                        visible: edit,
+                        child: Column(children: <Widget>[
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['Email'],
+                              style: TextStyle(fontSize: 18),
+                              onChanged: (text) {
+                                tempEmail = text;
+                              },
+                            ),
+                            leading: Icon(Icons.email),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['PhoneNumber'],
+                              onChanged: (text) {
+                                tempPhone = text;
+                              },
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            leading: Icon(Icons.phone),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: TextFormField(
+                              initialValue: info['Address'],
+                              onChanged: (text) {
+                                tempAddress = text;
+                              },
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            leading: Icon(Icons.location_on_rounded),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: Text(info['Salary'], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.attach_money),
+                          ),
+                          RoundedButton(
+                              text: "SAVE",
+                              press: () {
+                                if (tempEmail == "") tempEmail = info['Email'];
+                                if (tempPhone == "") tempPhone = info['PhoneNumber'];
+                                if (tempAddress == "") tempAddress = info['Address'];
+                                showLoadingDialog();
+                                postMethod(tempEmail, tempPhone, tempAddress);
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    hideLoadingDialog();
+                                    return ProfilePage(id: widget.id);
+                                  },
+                                ));
+                              })
+                        ]),
                       ),
                     ],
                   ),
