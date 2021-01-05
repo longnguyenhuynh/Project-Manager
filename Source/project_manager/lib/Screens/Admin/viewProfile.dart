@@ -51,7 +51,8 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                   offset: Offset(0, 15))
             ]),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               child: GNav(
                   gap: 8,
                   color: Colors.grey[800],
@@ -83,27 +84,32 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                     if (index == 0) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => HomePage(id: widget.id)),
                       );
                     } else if (index == 1) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProjectPage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => ProjectPage(id: widget.id)),
                       );
                     } else if (index == 2) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPage(id: widget.id)),
                       );
                     } else if (index == 3) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(id: widget.id)),
                       );
                     } else if (index == 4) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => AdminPage(id: widget.id)),
                       );
                     }
                   }),
@@ -116,7 +122,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
 
   deleteUser(String id) async {
     String url = "https://phuidatabase.000webhostapp.com/deleteEmployee.php";
-    var requestUrl = url + '?' + "ID=" + id;
+    var requestUrl = url + '?' + "EID=" + id;
     http.Response response = await http.get(requestUrl);
     print(requestUrl);
     var data = response.body;
@@ -124,8 +130,8 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
     return data;
   }
 
-  updateEmployee(
-      String nationalID, String userName, String password, String role, String salary) async {
+  updateEmployee(String nationalID, String userName, String password,
+      String role, String salary) async {
     String url = "https://phuidatabase.000webhostapp.com/updateEmploy.php";
     Map<String, String> profileInfo = {
       'ID': nationalID,
@@ -164,8 +170,9 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
         width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            image:
-                DecorationImage(image: AssetImage('assets/images/avatar.png'), fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: AssetImage('assets/images/avatar.png'),
+                fit: BoxFit.cover)),
         margin: EdgeInsets.only(left: 16.0),
       );
     else {
@@ -174,8 +181,9 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
         width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            image:
-                DecorationImage(image: NetworkImage(info['ProfilePhotoLink']), fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: NetworkImage(info['ProfilePhotoLink']),
+                fit: BoxFit.cover)),
         margin: EdgeInsets.only(left: 16.0),
       );
     }
@@ -194,7 +202,8 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                     Container(
                       padding: EdgeInsets.all(0.0),
                       decoration: BoxDecoration(
-                          color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -213,7 +222,8 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                                   style: TextStyle(fontSize: 25, color: kBlue),
                                 ),
                                 Divider(),
-                                Text(info['role'], style: TextStyle(fontSize: 20)),
+                                Text(info['role'],
+                                    style: TextStyle(fontSize: 20)),
                               ],
                             ),
                           ),
@@ -233,8 +243,10 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                       Row(children: <Widget>[
                         SizedBox(width: 15.0),
                         Text("USER INFORMATION",
-                            style:
-                                TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBlue)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: kBlue)),
                         SizedBox(width: 90.0),
                         IconButton(
                           icon: Icon(Icons.edit),
@@ -252,29 +264,34 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                         visible: !edit,
                         child: Column(children: <Widget>[
                           ListTile(
-                            title: Text(info["userName"], style: TextStyle(fontSize: 20)),
+                            title: Text(info["userName"],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.account_circle_rounded),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["password"], style: TextStyle(fontSize: 20)),
+                            title: Text(info["password"],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.lock),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["role"], style: TextStyle(fontSize: 20)),
+                            title: Text(info["role"],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.assignment_ind_rounded),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['Salary'], style: TextStyle(fontSize: 20)),
+                            title: Text(info['Salary'],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.attach_money),
                           ),
                           RoundedButton(
                               text: "DELETE",
                               press: () {
                                 showLoadingDialog();
-                                deleteUser(info['NationalID']);
+                                print(info['EID']);
+                                deleteUser(info['EID']);
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
@@ -333,14 +350,17 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                           RoundedButton(
                               text: "SAVE",
                               press: () {
-                                if (tempUserName == "") tempUserName = info['userName'];
-                                if (tempPassWord == "") tempPassWord = info['password'];
+                                if (tempUserName == "")
+                                  tempUserName = info['userName'];
+                                if (tempPassWord == "")
+                                  tempPassWord = info['password'];
                                 if (tempRole == "") tempRole = info['role'];
-                                if (tempSalary == "") tempSalary = info['Salary'];
+                                if (tempSalary == "")
+                                  tempSalary = info['Salary'];
 
                                 showLoadingDialog();
-                                updateEmployee(info['NationalID'], tempUserName, tempPassWord,
-                                    tempRole, tempSalary);
+                                updateEmployee(info['NationalID'], tempUserName,
+                                    tempPassWord, tempRole, tempSalary);
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
