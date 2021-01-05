@@ -17,7 +17,7 @@ Map<String, Color> priority = {
   'High': kDarkYellow,
   'Critical': kRed
 };
-Map<Color, String> rev_priority = {
+Map<Color, String> revPriority = {
   kGreen: 'Low',
   kBlue: 'Med',
   kDarkYellow: 'High',
@@ -63,10 +63,7 @@ class _CreateNewTaskPageState extends State<CreateNewTaskPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    var downwardIcon = Icon(
-      Icons.keyboard_arrow_down,
-      color: Colors.black54,
-    );
+
     return Scaffold(
       body: SafeArea(
         child: Column(

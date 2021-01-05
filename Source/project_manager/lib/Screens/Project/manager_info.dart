@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:load/load.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
@@ -26,7 +25,8 @@ class _ManagerPageState extends State<ManagerPage> {
     print("hello");
     int queryID = widget.id;
     var requestUrl = url + '?id=' + queryID.toString();
-    var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
+    var res = await http.get(Uri.encodeFull(requestUrl),
+        headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     var info = body[0];
     print(info);
@@ -46,10 +46,12 @@ class _ManagerPageState extends State<ManagerPage> {
                     width: double.infinity,
                     child: FutureBuilder(
                         future: getProfileMethod(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
                           if (info != null) return buildProfile(info);
                           info = snapshot.data;
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
@@ -66,7 +68,8 @@ class _ManagerPageState extends State<ManagerPage> {
                   offset: Offset(0, 15))
             ]),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               child: GNav(
                   gap: 8,
                   color: Colors.grey[800],
@@ -98,22 +101,26 @@ class _ManagerPageState extends State<ManagerPage> {
                     if (index == 0) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => HomePage(id: widget.id)),
                       );
                     } else if (index == 2) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPage(id: widget.id)),
                       );
                     } else if (index == 3) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(id: widget.id)),
                       );
                     } else if (index == 4) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
+                        MaterialPageRoute(
+                            builder: (context) => AdminPage(id: widget.id)),
                       );
                     }
                   }),
@@ -131,8 +138,9 @@ class _ManagerPageState extends State<ManagerPage> {
         width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            image:
-                DecorationImage(image: AssetImage('assets/images/avatar.png'), fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: AssetImage('assets/images/avatar.png'),
+                fit: BoxFit.cover)),
         margin: EdgeInsets.only(left: 16.0),
       );
     else {
@@ -141,8 +149,9 @@ class _ManagerPageState extends State<ManagerPage> {
         width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            image:
-                DecorationImage(image: NetworkImage(info['ProfilePhotoLink']), fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: NetworkImage(info['ProfilePhotoLink']),
+                fit: BoxFit.cover)),
         margin: EdgeInsets.only(left: 16.0),
       );
     }
@@ -161,7 +170,8 @@ class _ManagerPageState extends State<ManagerPage> {
                     Container(
                       padding: EdgeInsets.all(0.0),
                       decoration: BoxDecoration(
-                          color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -180,7 +190,8 @@ class _ManagerPageState extends State<ManagerPage> {
                                   style: TextStyle(fontSize: 25, color: kBlue),
                                 ),
                                 Divider(),
-                                Text(info['role'], style: TextStyle(fontSize: 20)),
+                                Text(info['role'],
+                                    style: TextStyle(fontSize: 20)),
                               ],
                             ),
                           ),
@@ -200,8 +211,10 @@ class _ManagerPageState extends State<ManagerPage> {
                       Row(children: <Widget>[
                         SizedBox(width: 15.0),
                         Text("USER INFORMATION",
-                            style:
-                                TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBlue)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: kBlue)),
                         SizedBox(width: 90.0),
                       ]),
                       SizedBox(height: 5.0),
@@ -210,22 +223,26 @@ class _ManagerPageState extends State<ManagerPage> {
                         visible: true,
                         child: Column(children: <Widget>[
                           ListTile(
-                            title: Text(info['Email'], style: TextStyle(fontSize: 18)),
+                            title: Text(info['Email'],
+                                style: TextStyle(fontSize: 18)),
                             leading: Icon(Icons.email),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["PhoneNumber"], style: TextStyle(fontSize: 20)),
+                            title: Text(info["PhoneNumber"],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.phone),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['Address'], style: TextStyle(fontSize: 18)),
+                            title: Text(info['Address'],
+                                style: TextStyle(fontSize: 18)),
                             leading: Icon(Icons.location_on_rounded),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['Salary'], style: TextStyle(fontSize: 20)),
+                            title: Text(info['Salary'],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.attach_money),
                           ),
                         ]),
