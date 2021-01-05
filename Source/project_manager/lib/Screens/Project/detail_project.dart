@@ -258,8 +258,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ManagerPage(id: int.parse(info['manager']))));
+                                      builder: (context) => ManagerPage(
+                                          id: widget.id, manager: int.parse(info['manager']))));
                             },
                             child: ListTile(
                               title: Text("Manager", style: TextStyle(fontSize: 20)),

@@ -11,7 +11,8 @@ import 'package:http/http.dart' as http;
 
 class ManagerPage extends StatefulWidget {
   final int id;
-  ManagerPage({Key key, this.id}) : super(key: key);
+  final int manager;
+  ManagerPage({Key key, this.id, this.manager}) : super(key: key);
 
   @override
   _ManagerPageState createState() => _ManagerPageState();
@@ -24,7 +25,7 @@ class _ManagerPageState extends State<ManagerPage> {
   getProfileMethod() async {
     String url = "https://phuidatabase.000webhostapp.com/getUserData.php";
     print("hello");
-    int queryID = widget.id;
+    int queryID = widget.manager;
     var requestUrl = url + '?id=' + queryID.toString();
     var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
