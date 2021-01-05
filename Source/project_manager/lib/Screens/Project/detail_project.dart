@@ -41,7 +41,6 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
     return info;
   }
 
-
   editProject(String des, String target, String expense, String access) async {
     //SỬA THÔNG TIN CHỖ NÀY
     String url = "https://phuidatabase.000webhostapp.com/editProject.php";
@@ -66,7 +65,11 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            MyBackButton(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              child: MyBackButton(),
+            ),
             Expanded(
               child: SingleChildScrollView(
                   child: Container(
@@ -285,17 +288,21 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               text: "SAVE",
                               press: () {
                                 if (tempDes == "") tempDes = info['des'];
-                                if (tempTarget == "") tempTarget = info['target'];
-                                if (tempExpense == "") tempExpense = info['expense'];
-                                if (tempAccess == "") tempAccess = info['access'];
+                                if (tempTarget == "")
+                                  tempTarget = info['target'];
+                                if (tempExpense == "")
+                                  tempExpense = info['expense'];
+                                if (tempAccess == "")
+                                  tempAccess = info['access'];
 
                                 showLoadingDialog();
-                                editProject(
-                                    tempDes, tempTarget, tempExpense, tempAccess); // GỌI LÊN SERVER
+                                editProject(tempDes, tempTarget, tempExpense,
+                                    tempAccess); // GỌI LÊN SERVER
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
-                                    return ProjectPage(id: widget.id);
+                                    return DetailProjectPage(
+                                        id: widget.projectID);
                                   },
                                 ));
                               })
