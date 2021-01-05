@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
-import 'package:project_manager/Screens/Calendar/calendar_page.dart';
-import 'package:project_manager/Screens/Home/home_page.dart';
+
 import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/manager_info.dart';
-import 'package:project_manager/Screens/Project/project_page.dart';
-import 'package:project_manager/components/google_nav_bar.dart';
+
 import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/Screens/Admin/admin.dart';
+import 'package:project_manager/components/back_button.dart';
 import 'package:http/http.dart' as http;
 
 class DetailProjectPage extends StatefulWidget {
@@ -32,14 +30,17 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
   int selectedIndex = 1;
 
   getMethod() async {
-    String url = "https://phuidatabase.000webhostapp.com/getDetailProjectData.php";
+    String url =
+        "https://phuidatabase.000webhostapp.com/getDetailProjectData.php";
     int queryID = widget.projectID;
     var requestUrl = url + '?ID=' + queryID.toString();
-    var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
+    var res = await http.get(Uri.encodeFull(requestUrl),
+        headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     var info = body[0];
     return info;
   }
+
 
   editProject(String des, String target, String expense, String access) async {
     //SỬA THÔNG TIN CHỖ NÀY
@@ -63,89 +64,44 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(children: <Widget>[
-          Expanded(
-            child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.only(top: 0),
-                    height: MediaQuery.of(context).size.height,
-                    width: double.infinity,
-                    child: FutureBuilder(
-                        future: getMethod(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (info != null) return buildProfile(info);
-                          info = snapshot.data;
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return buildProfile(info);
-                        }))),
-          ),
-          Container(
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                  spreadRadius: -10,
-                  blurRadius: 60,
-                  color: Colors.black.withOpacity(.20),
-                  offset: Offset(0, 15))
-            ]),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-              child: GNav(
-                  gap: 8,
-                  color: Colors.grey[800],
-                  activeColor: kPrimaryColor,
-                  iconSize: 24,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  tabs: [
-                    GButton(
-                      icon: Icons.home,
-                    ),
-                    GButton(
-                      icon: Icons.lightbulb,
-                    ),
-                    GButton(
-                      icon: Icons.calendar_today,
-                    ),
-                    GButton(
-                      icon: Icons.person,
-                    ),
-                    GButton(
-                      icon: Icons.star,
-                    ),
-                  ],
-                  selectedIndex: selectedIndex,
-                  onTabChange: (index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                    if (index == 0) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
-                      );
-                    } else if (index == 2) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
-                      );
-                    } else if (index == 3) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
-                      );
-                    } else if (index == 4) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
-                      );
-                    }
-                  }),
+        child: Column(
+          children: <Widget>[
+            MyBackButton(),
+            Expanded(
+              child: SingleChildScrollView(
+                  child: Container(
+                      padding: EdgeInsets.only(top: 0),
+                      height: MediaQuery.of(context).size.height,
+                      width: double.infinity,
+                      child: FutureBuilder(
+                          future: getMethod(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (info != null) return buildProfile(info);
+                            info = snapshot.data;
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return buildProfile(info);
+                          }))),
             ),
-          ),
-        ]),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: -10,
+                      blurRadius: 60,
+                      color: Colors.black.withOpacity(.20),
+                      offset: Offset(0, 15))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -163,7 +119,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                     Container(
                       padding: EdgeInsets.all(0.0),
                       decoration: BoxDecoration(
-                          color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -178,7 +135,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                                   style: TextStyle(fontSize: 25, color: kBlue),
                                 ),
                                 Divider(),
-                                Text(info['status'], style: TextStyle(fontSize: 20)),
+                                Text(info['status'],
+                                    style: TextStyle(fontSize: 20)),
                               ],
                             ),
                           ),
@@ -192,7 +150,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           image: DecorationImage(
-                              image: AssetImage('assets/images/project.png'), fit: BoxFit.cover)),
+                              image: AssetImage('assets/images/project.png'),
+                              fit: BoxFit.cover)),
                       margin: EdgeInsets.only(left: 16.0),
                     )
                   ],
@@ -206,8 +165,10 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                       Row(children: <Widget>[
                         SizedBox(width: 15.0),
                         Text("PROJECT INFORMATION",
-                            style:
-                                TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBlue)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: kBlue)),
                         SizedBox(width: 30.0),
                         IconButton(
                           icon: Icon(Icons.edit),
@@ -225,32 +186,37 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                         visible: !edit,
                         child: Column(children: <Widget>[
                           ListTile(
-                            title: Text(info['des'], style: TextStyle(fontSize: 18)),
+                            title: Text(info['des'],
+                                style: TextStyle(fontSize: 18)),
                             leading: Icon(Icons.check_box),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["target"], style: TextStyle(fontSize: 20)),
+                            title: Text(info["target"],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.control_camera_outlined),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['expense'], style: TextStyle(fontSize: 18)),
+                            title: Text(info['expense'],
+                                style: TextStyle(fontSize: 18)),
                             leading: Icon(Icons.attach_money),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info['access'], style: TextStyle(fontSize: 20)),
+                            title: Text(info['access'],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.lock),
                           ),
                           Divider(),
                           ListTile(
-                            title:
-                                Text("From: " + info['startTime'], style: TextStyle(fontSize: 20)),
+                            title: Text("From: " + info['startTime'],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.calendar_today_rounded),
                           ),
                           ListTile(
-                            title: Text("To: " + info['endTime'], style: TextStyle(fontSize: 20)),
+                            title: Text("To: " + info['endTime'],
+                                style: TextStyle(fontSize: 20)),
                             leading: Icon(Icons.calendar_today_rounded),
                           ),
                           GestureDetector(
@@ -258,11 +224,12 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ManagerPage(id: int.parse(info['manager']))));
+                                      builder: (context) => ManagerPage(
+                                          id: int.parse(info['manager']))));
                             },
                             child: ListTile(
-                              title: Text("Manager", style: TextStyle(fontSize: 20)),
+                              title: Text("Manager",
+                                  style: TextStyle(fontSize: 20)),
                               leading: Icon(Icons.account_circle),
                             ),
                           )
@@ -321,6 +288,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                                 if (tempTarget == "") tempTarget = info['target'];
                                 if (tempExpense == "") tempExpense = info['expense'];
                                 if (tempAccess == "") tempAccess = info['access'];
+
                                 showLoadingDialog();
                                 editProject(
                                     tempDes, tempTarget, tempExpense, tempAccess); // GỌI LÊN SERVER

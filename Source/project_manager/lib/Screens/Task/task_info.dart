@@ -12,15 +12,13 @@ class Priority {
 }
 
 Map<String, int> priority = {'Low': 0, 'Med': 1, 'High': 2, 'Critical': 3};
-Map<int, String> rev_priority = {0: 'Low', 1: 'Med', 2: 'High', 3: 'Critical'};
+Map<int, String> revPriority = {0: 'Low', 1: 'Med', 2: 'High', 3: 'Critical'};
 
 getData() async {
   var url = 'https://phuidatabase.000webhostapp.com/getManagerList.php';
   http.Response response = await http.get(url);
   return jsonDecode(response.body);
 }
-
-int _value = 1;
 
 List<Priority> _priority = <Priority>[
   const Priority('Low', kGreen),
@@ -37,7 +35,7 @@ class TaskInfo extends StatefulWidget {
 }
 
 class _TaskInfo extends State<TaskInfo> {
-  _TaskInfo({Key key, @required this.data});
+  _TaskInfo({@required this.data});
   var data;
   List _assignTo;
   int _value;
@@ -47,10 +45,7 @@ class _TaskInfo extends State<TaskInfo> {
     _value = priority[data["Priority"]];
     _assignTo = [data["ManagerID"]];
     double width = MediaQuery.of(context).size.width;
-    var downwardIcon = Icon(
-      Icons.keyboard_arrow_down,
-      color: Colors.black54,
-    );
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -280,7 +275,7 @@ class _TaskInfo extends State<TaskInfo> {
                           onSelected: (bool selected) {
                             setState(() {
                               data["Priority"] =
-                                  rev_priority[selected ? index : 0];
+                                  revPriority[selected ? index : 0];
                             });
                           },
                         );
