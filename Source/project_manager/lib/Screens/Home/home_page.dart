@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/constants.dart';
-import 'package:project_manager/components/active_project_card.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
-import 'package:project_manager/Screens/Task/create_new_task_page.dart';
+import 'package:project_manager/Screens/Task/task_page.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/Screens/Project/project_page.dart';
@@ -36,68 +35,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              subheading('Task'),
-                              Row(children: <Widget>[
-                                Container(
-                                  height: 40.0,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    color: kGreen,
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateNewTaskPage(),
-                                        ),
-                                      );
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        'Add task',
-                                        style: TextStyle(
-                                            color: kPrimaryLightColor,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 10.0),
-                          // Database
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: TaskPage(),
             ),
             Container(
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -142,26 +80,24 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProjectPage(id: widget.id)),
+                              builder: (context) => ProjectPage()),
                         );
                       } else if (index == 2) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  CalendarPage(id: widget.id)),
+                              builder: (context) => CalendarPage()),
                         );
                       } else if (index == 3) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfilePage(id: widget.id)),
+                              builder: (context) => ProfilePage()),
                         );
                       } else if (index == 4) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AdminPage(id: widget.id)),
+                          MaterialPageRoute(builder: (context) => AdminPage()),
                         );
                       }
                     }),

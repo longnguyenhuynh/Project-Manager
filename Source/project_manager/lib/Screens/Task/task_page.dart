@@ -6,7 +6,7 @@ import 'package:project_manager/Screens/Task/task_info.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Map<String, Color> Priority = {
+Map<String, Color> priority = {
   'Low': kGreen,
   'Med': kBlue,
   'High': kDarkYellow,
@@ -21,7 +21,7 @@ Widget taskTemplate(data, context) {
       },
       child: ActiveProjectsCard(
         data: data,
-        cardColor: Priority[data['Priority']],
+        cardColor: priority[data['Priority']],
         title: data['TaskName'],
         subtitle: data['_Status'],
       ));
