@@ -121,7 +121,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
 
   deleteUser(String id) async {
     String url = "https://phuidatabase.000webhostapp.com/deleteEmployee.php";
-    var requestUrl = url + '?' + "ID=" + id;
+    var requestUrl = url + '?' + "EID=" + id;
     http.Response response = await http.get(requestUrl);
     print(requestUrl);
     var data = response.body;
@@ -289,7 +289,8 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                               text: "DELETE",
                               press: () {
                                 showLoadingDialog();
-                                deleteUser(info['NationalID']);
+                                print(info['EID']);
+                                deleteUser(info['EID']);
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
