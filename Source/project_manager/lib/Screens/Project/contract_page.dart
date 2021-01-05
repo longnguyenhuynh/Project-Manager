@@ -3,29 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/Screens/Calendar/calendar_page.dart';
 import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
+import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/Screens/Admin/admin.dart';
 import 'package:http/http.dart' as http;
-import 'package:project_manager/components/back_button.dart';
 
-class ManagerPage extends StatefulWidget {
+class ContractPage extends StatefulWidget {
   final int id;
-  final int manager;
-  ManagerPage({Key key, this.id, this.manager}) : super(key: key);
+  final int contract;
+  final String name;
+  ContractPage({Key key, this.id, this.contract, this.name}) : super(key: key);
 
   @override
-  _ManagerPageState createState() => _ManagerPageState();
+  _ContractPageState createState() => _ContractPageState();
 }
 
-class _ManagerPageState extends State<ManagerPage> {
+class _ContractPageState extends State<ContractPage> {
   var info;
   int selectedIndex = 1;
 
-  getProfileMethod() async {
-    String url = "https://phuidatabase.000webhostapp.com/getUserData.php";
-    int queryID = widget.manager;
-    var requestUrl = url + '?id=' + queryID.toString();
+  getContract() async {
+    String url = "https://phuidatabase.000webhostapp.com/getContractData.php";
+    int queryID = widget.contract;
+    var requestUrl = url + '?ID=' + queryID.toString();
     var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
     var info = body[0];
@@ -36,57 +37,47 @@ class _ManagerPageState extends State<ManagerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-            child: MyBackButton(),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.only(top: 0),
-                    height: MediaQuery.of(context).size.height,
-                    width: double.infinity,
-                    child: FutureBuilder(
-                        future: getProfileMethod(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (info != null) return buildProfile(info);
-                          info = snapshot.data;
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return buildProfile(info);
-                        }))),
-          ),
-        ]),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              child: MyBackButton(),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                  child: Container(
+                      padding: EdgeInsets.only(top: 0),
+                      height: MediaQuery.of(context).size.height,
+                      width: double.infinity,
+                      child: FutureBuilder(
+                          future: getContract(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if (info != null) return buildProfile(info);
+                            info = snapshot.data;
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return buildProfile(info);
+                          }))),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: -10,
+                      blurRadius: 60,
+                      color: Colors.black.withOpacity(.20),
+                      offset: Offset(0, 15))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Container profilePicture(dynamic info) {
-    if (info['ProfilePhotoLink'] == "" || info['ProfilePhotoLink'] == null)
-      return Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            image:
-                DecorationImage(image: AssetImage('assets/images/avatar.png'), fit: BoxFit.cover)),
-        margin: EdgeInsets.only(left: 16.0),
-      );
-    else {
-      return Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            image:
-                DecorationImage(image: NetworkImage(info['ProfilePhotoLink']), fit: BoxFit.cover)),
-        margin: EdgeInsets.only(left: 16.0),
-      );
-    }
   }
 
   Widget buildProfile(dynamic info) {
@@ -113,15 +104,10 @@ class _ManagerPageState extends State<ManagerPage> {
                               children: <Widget>[
                                 SizedBox(height: 10.0),
                                 Text(
-                                  info['LastName'] +
-                                      ' ' +
-                                      info['MiddleName'] +
-                                      ' ' +
-                                      info['FirstName'],
+                                  widget.name,
                                   style: TextStyle(fontSize: 25, color: kBlue),
                                 ),
                                 Divider(),
-                                Text(info['role'], style: TextStyle(fontSize: 20)),
                               ],
                             ),
                           ),
@@ -129,7 +115,15 @@ class _ManagerPageState extends State<ManagerPage> {
                         ],
                       ),
                     ),
-                    profilePicture(info),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/contract.png'), fit: BoxFit.cover)),
+                      margin: EdgeInsets.only(left: 16.0),
+                    )
                   ],
                 ),
                 Divider(),
@@ -140,10 +134,10 @@ class _ManagerPageState extends State<ManagerPage> {
                       SizedBox(height: 5.0),
                       Row(children: <Widget>[
                         SizedBox(width: 15.0),
-                        Text("USER INFORMATION",
+                        Text("CONTRACT INFORMATION",
                             style:
                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBlue)),
-                        SizedBox(width: 90.0),
+                        SizedBox(width: 30.0),
                       ]),
                       SizedBox(height: 5.0),
                       Divider(),
@@ -151,23 +145,24 @@ class _ManagerPageState extends State<ManagerPage> {
                         visible: true,
                         child: Column(children: <Widget>[
                           ListTile(
-                            title: Text(info['Email'], style: TextStyle(fontSize: 18)),
-                            leading: Icon(Icons.email),
+                            title: Text(info['des'], style: TextStyle(fontSize: 18)),
+                            leading: Icon(Icons.check_box),
                           ),
                           Divider(),
                           ListTile(
-                            title: Text(info["PhoneNumber"], style: TextStyle(fontSize: 20)),
-                            leading: Icon(Icons.phone),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(info['Address'], style: TextStyle(fontSize: 18)),
-                            leading: Icon(Icons.location_on_rounded),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(info['Salary'], style: TextStyle(fontSize: 20)),
+                            title: Text(info['value'], style: TextStyle(fontSize: 18)),
                             leading: Icon(Icons.attach_money),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title:
+                                Text("SignedTime: " + info['sign'], style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.calendar_today_rounded),
+                          ),
+                          ListTile(
+                            title: Text("ExpiredTime: " + info['expired'],
+                                style: TextStyle(fontSize: 20)),
+                            leading: Icon(Icons.calendar_today_rounded),
                           ),
                         ]),
                       ),

@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
+import 'package:project_manager/Screens/Admin/admin.dart';
+import 'package:project_manager/Screens/Calendar/calendar_page.dart';
+import 'package:project_manager/Screens/Home/home_page.dart';
 
 import 'package:project_manager/Screens/Profile/profile.dart';
+import 'package:project_manager/Screens/Project/contract_page.dart';
 import 'package:project_manager/Screens/Project/manager_info.dart';
+import 'package:project_manager/components/google_nav_bar.dart';
 
 import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/constants.dart';
@@ -52,7 +57,6 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
     String queryString = Uri(queryParameters: profileInfo).query;
     var requestUrl = url + '?' + queryString;
     http.Response response = await http.get(requestUrl);
-    print(requestUrl);
     var data = response.body;
     return data;
   }
@@ -87,15 +91,65 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                           }))),
             ),
             Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      spreadRadius: -10,
-                      blurRadius: 60,
-                      color: Colors.black.withOpacity(.20),
-                      offset: Offset(0, 15))
-                ],
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    spreadRadius: -10,
+                    blurRadius: 60,
+                    color: Colors.black.withOpacity(.20),
+                    offset: Offset(0, 15))
+              ]),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: GNav(
+                    gap: 8,
+                    color: Colors.grey[800],
+                    activeColor: kPrimaryColor,
+                    iconSize: 24,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    tabs: [
+                      GButton(
+                        icon: Icons.home,
+                      ),
+                      GButton(
+                        icon: Icons.lightbulb,
+                      ),
+                      GButton(
+                        icon: Icons.calendar_today,
+                      ),
+                      GButton(
+                        icon: Icons.person,
+                      ),
+                      GButton(
+                        icon: Icons.star,
+                      ),
+                    ],
+                    selectedIndex: selectedIndex,
+                    onTabChange: (index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      if (index == 0) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage(id: widget.id)),
+                        );
+                      } else if (index == 2) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CalendarPage(id: widget.id)),
+                        );
+                      } else if (index == 3) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfilePage(id: widget.id)),
+                        );
+                      } else if (index == 4) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AdminPage(id: widget.id)),
+                        );
+                      }
+                    }),
               ),
             ),
           ],
@@ -199,12 +253,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                           ),
                           Divider(),
                           ListTile(
-                            title:
-                                Text("From: " + info['startTime'], style: TextStyle(fontSize: 20)),
-                            leading: Icon(Icons.calendar_today_rounded),
-                          ),
-                          ListTile(
-                            title: Text("To: " + info['endTime'], style: TextStyle(fontSize: 20)),
+                            title: Text("From: " + info['startTime'] + " To: " + info['endTime'],
+                                style: TextStyle(fontSize: 15)),
                             leading: Icon(Icons.calendar_today_rounded),
                           ),
                           GestureDetector(
@@ -219,7 +269,22 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               title: Text("Manager", style: TextStyle(fontSize: 20)),
                               leading: Icon(Icons.account_circle),
                             ),
-                          )
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ContractPage(
+                                          id: widget.id,
+                                          contract: widget.projectID,
+                                          name: info['name'])));
+                            },
+                            child: ListTile(
+                              title: Text("Contract", style: TextStyle(fontSize: 20)),
+                              leading: Icon(Icons.account_circle),
+                            ),
+                          ),
                         ]),
                       ),
                       Visibility(
@@ -282,7 +347,8 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
-                                    return DetailProjectPage(id: widget.projectID);
+                                    return DetailProjectPage(
+                                        id: widget.id, projectID: widget.projectID);
                                   },
                                 ));
                               })
