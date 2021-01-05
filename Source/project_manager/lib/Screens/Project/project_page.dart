@@ -200,8 +200,9 @@ class _ProjectPageState extends State<ProjectPage> {
                 SizedBox(
                   width: 5,
                 ),
-                Text(projectList[index]['status'],
-                    style: TextStyle(color: primary, fontSize: 16, letterSpacing: .3)),
+                Text(
+                  projectList[index]['status'],
+                ),
               ],
             ),
           ],

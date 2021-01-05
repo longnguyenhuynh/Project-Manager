@@ -41,19 +41,21 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
     return info;
   }
 
-  editProject(String email, String des, String target, String status,
-      String expense, String access) async {
+
+  editProject(String des, String target, String expense, String access) async {
+    //SỬA THÔNG TIN CHỖ NÀY
     String url = "https://phuidatabase.000webhostapp.com/editProject.php";
     Map<String, String> profileInfo = {
-      'ID': widget.id.toString(),
-      'Description': des,
-      'Status': status,
-      'Expense': expense,
-      'Access': access,
+      'ID': widget.projectID.toString(),
+      'des': des,
+      'target': target,
+      'expense': expense,
+      'access': access
     };
     String queryString = Uri(queryParameters: profileInfo).query;
     var requestUrl = url + '?' + queryString;
     http.Response response = await http.get(requestUrl);
+    print(requestUrl);
     var data = response.body;
     return data;
   }
@@ -105,7 +107,6 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
   }
 
   Widget buildProfile(dynamic info) {
-    print(info);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -239,7 +240,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                         child: Column(children: <Widget>[
                           ListTile(
                             title: TextFormField(
-                              initialValue: info['des'],
+                              initialValue: info["des"],
                               style: TextStyle(fontSize: 18),
                               onChanged: (text) {
                                 tempDes = text;
@@ -250,10 +251,10 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                           Divider(),
                           ListTile(
                             title: TextFormField(
-                              initialValue: info['target'],
+                              initialValue: info["target"],
                               style: TextStyle(fontSize: 18),
                               onChanged: (text) {
-                                tempDes = text;
+                                tempTarget = text;
                               },
                             ),
                             leading: Icon(Icons.control_camera_outlined),
@@ -264,7 +265,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               initialValue: info['expense'],
                               style: TextStyle(fontSize: 18),
                               onChanged: (text) {
-                                tempDes = text;
+                                tempExpense = text;
                               },
                             ),
                             leading: Icon(Icons.attach_money),
@@ -275,7 +276,7 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               initialValue: info['access'],
                               style: TextStyle(fontSize: 18),
                               onChanged: (text) {
-                                tempDes = text;
+                                tempAccess = text;
                               },
                             ),
                             leading: Icon(Icons.lock),
@@ -284,20 +285,17 @@ class _DetailProjectPageState extends State<DetailProjectPage> {
                               text: "SAVE",
                               press: () {
                                 if (tempDes == "") tempDes = info['des'];
-                                if (tempTarget == "")
-                                  tempTarget = info['target'];
-                                if (tempStatus == "")
-                                  tempExpense = info['status'];
-                                if (tempExpense == "")
-                                  tempExpense = info['expense'];
-                                if (tempAccess == "")
-                                  tempAccess = info['access'];
+                                if (tempTarget == "") tempTarget = info['target'];
+                                if (tempExpense == "") tempExpense = info['expense'];
+                                if (tempAccess == "") tempAccess = info['access'];
+
                                 showLoadingDialog();
-                                //editProject(tempEmail, tempPhone, tempAddress); // GỌI LÊN SERVER
+                                editProject(
+                                    tempDes, tempTarget, tempExpense, tempAccess); // GỌI LÊN SERVER
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     hideLoadingDialog();
-                                    return ProfilePage(id: widget.id);
+                                    return ProjectPage(id: widget.id);
                                   },
                                 ));
                               })
