@@ -59,7 +59,6 @@ class _AdminPageState extends State<AdminPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Container(),
                     Container(
                       color: Colors.blueGrey[300],
                       padding: EdgeInsets.only(top: 0),
