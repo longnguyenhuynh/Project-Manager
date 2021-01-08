@@ -5,6 +5,7 @@ import 'package:project_manager/Screens/Home/home_page.dart';
 import 'package:project_manager/Screens/Profile/profile.dart';
 import 'package:project_manager/components/back_button.dart';
 import 'package:project_manager/components/google_nav_bar.dart';
+import 'package:project_manager/components/rounded_button.dart';
 import 'package:project_manager/constants.dart';
 import 'package:project_manager/Screens/Admin/admin.dart';
 import 'package:http/http.dart' as http;
@@ -59,6 +60,8 @@ class _ContractPageState extends State<ContractPage> {
                                 child: CircularProgressIndicator(),
                               );
                             }
+                            if (info == "")
+                              return RoundedButton(text: "ADD Contract", press: () {});
                             return buildProfile(info);
                           }))),
             ),
