@@ -30,6 +30,9 @@ class _ContractPageState extends State<ContractPage> {
     var requestUrl = url + '?ID=' + queryID.toString();
     var res = await http.get(Uri.encodeFull(requestUrl), headers: {"Accept": "application/json"});
     var body = json.decode(res.body);
+    print(body);
+    if (body.length == 0) return 0;
+    print("Still running");
     var info = body[0];
     return info;
   }
@@ -53,15 +56,14 @@ class _ContractPageState extends State<ContractPage> {
                       child: FutureBuilder(
                           future: getContract(),
                           builder: (BuildContext context, AsyncSnapshot snapshot) {
-                            if (info != null) return buildProfile(info);
+                            //if (info != null) return buildProfile(info);
                             info = snapshot.data;
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
-                            if (info == "")
-                              return RoundedButton(text: "ADD Contract", press: () {});
+                            if (info == 0) return RoundedButton(text: "ADD Contract", press: () {});
                             return buildProfile(info);
                           }))),
             ),
